@@ -1,0 +1,36 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { ui, type Lang } from '../i18n';
+const { entry, altHref } = Astro.props;
+const lang = entry.data.lang as Lang;
+const t = ui[lang];
+const { Content } = await render(entry);
+const home = lang === 'es' ? '/#proyectos' : '/en/#proyectos';
+---
+<Base lang={lang} title={`${entry.data.title} · Ricardo Dulanto`} description={entry.data.summary} altHref={altHref} image={entry.data.image}>
+  <article class="wrap article">
+    <a href={home} class="back">{t.back}</a>
+    <div>{entry.data.tags.map((g: string) => <span class="tag">{g}</span>)}</div>
+    <h1>{entry.data.question}</h1>
+    <p class="summary">{entry.data.summary}</p>
+    <div class="links">
+      {entry.data.repo && <a class="btn btn-primary" href={entry.data.repo} rel="noopener" target="_blank">{t.code} →</a>}
+      {entry.data.demo && <a class="btn btn-ghost" href={entry.data.demo} rel="noopener" target="_blank">{t.demo}</a>}
+    </div>
+    {entry.data.image && <img class="shot" src={entry.data.image} alt={entry.data.title} />}
+    <div class="prose"><Content /></div>
+  </article>
+</Base>
+<style>
+  .article { max-width: 780px; padding-top: 56px; padding-bottom: 96px; }
+  .back { font-size: .9rem; text-decoration: none; display: inline-block; margin-bottom: 24px; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-top: 12px; }
+  .summary { font-size: 1.15rem; color: var(--muted); }
+  .links { display: flex; gap: 12px; margin: 24px 0 32px; flex-wrap: wrap; }
+  .shot { border-radius: var(--radius); border: 1px solid var(--line); margin-bottom: 40px; }
+  .prose :global(h2) { font-size: 1.35rem; margin-top: 2.2em; }
+  .prose :global(table) { width: 100%; border-collapse: collapse; font-size: .95rem; margin: 16px 0; display: block; overflow-x: auto; }
+  .prose :global(th), .prose :global(td) { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .prose :global(th) { color: var(--muted); font-weight: 600; font-size: .85rem; }
+</style>

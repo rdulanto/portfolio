@@ -1,0 +1,10 @@
+---
+// Logo C: firma tipográfica con punto en azul petróleo.
+---
+<a href={Astro.props.href ?? '/'} class="logo" aria-label="Ricardo Dulanto">
+  ricardo dulanto<span class="dot" aria-hidden="true"></span>
+</a>
+<style>
+  .logo { font-weight: 650; font-size: 1.15rem; letter-spacing: -0.03em; color: var(--ink); text-decoration: none; display: inline-flex; align-items: baseline; }
+  .dot { width: .32em; height: .32em; border-radius: 50%; background: var(--accent); margin-left: .12em; display: inline-block; }
+</style>

@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+import Analytics from '../components/Analytics.astro';
+import { ui, type Lang } from '../i18n';
+
+interface Props { lang: Lang; title?: string; description?: string; altHref?: string; image?: string }
+const { lang, title, description, altHref, image = '/img/ricardo-dulanto.jpg' } = Astro.props;
+const t = ui[lang];
+const home = lang === 'es' ? '/' : '/en/';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title ?? t.htmlTitle}</title>
+  <meta name="description" content={description ?? t.description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="alternate" hreflang="es" href={new URL('/', Astro.site)} />
+  <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site)} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title ?? t.htmlTitle} />
+  <meta property="og:description" content={description ?? t.description} />
+  <meta property="og:image" content={new URL(image, Astro.site)} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'Person', name: 'Ricardo Dulanto Ramírez',
+    jobTitle: t.eyebrow, url: Astro.site?.toString(), sameAs: ['https://www.linkedin.com/in/rdulanto/', 'https://github.com/rdulanto'],
+    knowsAbout: ['Artificial Intelligence', 'Machine Learning', 'Data Governance', 'MLOps', 'Microsoft Azure'],
+  })} />
+</head>
+<body>
+  <header class="top">
+    <div class="wrap bar">
+      <Logo href={home} />
+      <nav aria-label="Principal">
+        <a href={`${home}#servicios`}>{t.nav.services}</a>
+        <a href={`${home}#proyectos`}>{t.nav.projects}</a>
+        <a href={`${home}#caso`}>{t.nav.case}</a>
+        <a href={`${home}#credenciales`}>{t.nav.credentials}</a>
+        <a href={altHref ?? t.switchHref} class="lang" hreflang={lang === 'es' ? 'en' : 'es'}>{t.switchLang}</a>
+      </nav>
+    </div>
+  </header>
+  <main><slot /></main>
+  <footer>
+    <div class="wrap foot">
+      <span>© {new Date().getFullYear()} Ricardo Dulanto</span>
+      <span>{t.footer}</span>
+    </div>
+  </footer>
+  <Analytics lang={lang} />
+</body>
+</html>
+<style>
+  .top { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  nav { display: flex; gap: 22px; align-items: center; font-size: .92rem; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--ink); }
+  nav .lang { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-weight: 600; color: var(--ink); }
+  footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: .85rem; }
+  .foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  @media (max-width: 720px) { nav a:not(.lang) { display: none; } }
+</style>

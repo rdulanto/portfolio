@@ -1,0 +1,150 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+import { ui, type Lang } from '../i18n';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const projects = (await getCollection('projects', (p) => p.data.lang === lang))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
+---
+<Base lang={lang}>
+  <div class="wrap hero">
+    <div class="hero-text">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h1>{t.headline}</h1>
+      <p class="hero-lead">{t.lead}</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href={SITE.calendar} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
+        <a class="btn btn-ghost" href={SITE.cv[lang]} download>{t.ctaSecondary}</a>
+      </div>
+    </div>
+    <picture class="photo">
+      <source srcset="/img/ricardo-dulanto.webp" type="image/webp" />
+      <img src="/img/ricardo-dulanto.jpg" alt="Ricardo Dulanto" width="640" height="640" fetchpriority="high" />
+    </picture>
+  </div>
+
+  <div class="wrap proofs">
+    {t.proofs.map((p) => (
+      <div><strong>{p.k}</strong><span>{p.t}</span></div>
+    ))}
+  </div>
+
+  <section id="servicios">
+    <div class="wrap">
+      <h2>{t.servicesTitle}</h2>
+      <p class="lead">{t.servicesLead}</p>
+      <div class="grid services">
+        {t.services.map((s, i) => (
+          <div class="card"><span class="num">0{i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="proyectos">
+    <div class="wrap">
+      <h2>{t.projectsTitle}</h2>
+      <p class="lead">{t.projectsLead}</p>
+      <div class="grid projects">
+        {projects.map((p) => (
+          <a class="card project" href={`${projBase}${p.data.slug}/`}>
+            {(p.data.thumb ?? p.data.image) && <img src={p.data.thumb ?? p.data.image} alt="" loading="lazy" />}
+            <div>{p.data.tags.map((g) => <span class="tag">{g}</span>)}</div>
+            <h3>{p.data.question}</h3>
+            <p>{p.data.summary}</p>
+            <span class="more">{t.readProject} →</span>
+          </a>
+        ))}
+        {t.upcoming.map((u) => (
+          <div class="card project upcoming">
+            <div><span class="tag">{u.tag}</span><span class="tag soon">{t.soon}</span></div>
+            <h3>{u.t}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="caso">
+    <div class="wrap">
+      <h2>{t.caseTitle}</h2>
+      <div class="card case">
+        <div class="case-head"><h3>{t.case.org}</h3><span>{t.case.role}</span></div>
+        <div class="case-grid">
+          <div><p class="label">{t.case.labels.problem}</p><p>{t.case.problem}</p></div>
+          <div><p class="label">{t.case.labels.did}</p><ul>{t.case.did.map((d) => <li>{d}</li>)}</ul></div>
+          <div><p class="label">{t.case.labels.result}</p><p>{t.case.result}</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="credenciales">
+    <div class="wrap two">
+      <div>
+        <h2>{t.credTitle}</h2>
+        <ul class="creds">{t.creds.map((c) => <li>{c}</li>)}</ul>
+      </div>
+      <div>
+        <h2>{t.experienceTitle}</h2>
+        <p class="orgs">{t.experience.join(' · ')}</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="contact">
+    <div class="wrap">
+      <h2>{t.contactTitle}</h2>
+      <p class="lead">{t.contactLead}</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href={SITE.calendar} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
+        <a class="btn btn-ghost" href={SITE.linkedin} rel="noopener" target="_blank">LinkedIn</a>
+        <a class="btn btn-ghost" href={SITE.github} rel="noopener" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: center; padding-top: 88px; padding-bottom: 56px; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700; letter-spacing: -0.035em; }
+  .hero-lead { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 0 32px; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .photo img { border-radius: 24px; aspect-ratio: 1; object-fit: cover; width: 100%; max-width: 400px; margin-left: auto; }
+  .proofs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; padding-bottom: 88px; }
+  .proofs div { display: flex; flex-direction: column; gap: 4px; border-left: 2px solid var(--accent); padding-left: 16px; }
+  .proofs strong { font-size: 2rem; letter-spacing: -0.03em; color: var(--accent); }
+  .proofs span { color: var(--muted); font-size: .95rem; }
+  .services { grid-template-columns: repeat(2, 1fr); }
+  .services p { color: var(--muted); margin: 0; }
+  .num { color: var(--accent); font-weight: 700; font-size: .85rem; display: block; margin-bottom: 12px; }
+  .projects { grid-template-columns: repeat(3, 1fr); }
+  .project { text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, transform .15s; }
+  a.project:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .project img { border-radius: 8px; border: 1px solid var(--line); margin-bottom: 8px; aspect-ratio: 16/7; object-fit: cover; object-position: left center; }
+  .project p { color: var(--muted); margin: 0; font-size: .95rem; }
+  .more { color: var(--accent); font-weight: 600; font-size: .9rem; margin-top: auto; padding-top: 8px; }
+  .upcoming { background: transparent; border-style: dashed; }
+  .upcoming h3 { color: var(--muted); }
+  .soon { background: transparent; border: 1px solid var(--line); }
+  .case-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 20px; }
+  .case-head span { color: var(--muted); font-size: .9rem; }
+  .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .case-grid p, .case-grid li { color: var(--muted); font-size: .95rem; margin: 0; }
+  .case-grid ul { padding-left: 18px; margin: 0; display: grid; gap: 6px; }
+  .label { color: var(--accent) !important; font-weight: 600; font-size: .8rem !important; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px !important; }
+  .two { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; }
+  .creds { padding-left: 18px; margin: 0; display: grid; gap: 10px; color: var(--muted); }
+  .orgs { font-size: 1.15rem; font-weight: 600; color: var(--ink); }
+  .contact { background: var(--sand); }
+  @media (max-width: 900px) {
+    .hero, .two { grid-template-columns: 1fr; gap: 32px; }
+    .photo img { max-width: 240px; margin: 0; order: -1; }
+    .projects, .case-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) { .proofs, .services { grid-template-columns: 1fr; } .hero { padding-top: 48px; } }
+</style>

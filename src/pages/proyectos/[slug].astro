@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectPage from '../../components/ProjectPage.astro';
+export async function getStaticPaths() {
+  const all = await getCollection('projects');
+  const en = all.filter((p) => p.data.lang === 'en');
+  return all.filter((p) => p.data.lang === 'es').map((entry, i) => ({
+    params: { slug: entry.data.slug },
+    props: { entry, altHref: en[i] ? `/en/projects/${en[i].data.slug}/` : '/en/' },
+  }));
+}
+const { entry, altHref } = Astro.props;
+---
+<ProjectPage entry={entry} altHref={altHref} />
