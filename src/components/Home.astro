@@ -91,7 +91,7 @@ const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
       </div>
       <div>
         <h2>{t.experienceTitle}</h2>
-        <p class="orgs">{t.experience.join(' · ')}</p>
+        <ul class="orgs">{t.experience.map((e) => <li>{e}</li>)}</ul>
       </div>
     </div>
   </section>
@@ -139,7 +139,7 @@ const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
   .label { color: var(--accent) !important; font-weight: 600; font-size: .8rem !important; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px !important; }
   .two { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; }
   .creds { padding-left: 18px; margin: 0; display: grid; gap: 10px; color: var(--muted); }
-  .orgs { font-size: 1.15rem; font-weight: 600; color: var(--ink); }
+  .orgs { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-weight: 600; }
   .contact { background: var(--sand); }
   @media (max-width: 900px) {
     .hero, .two { grid-template-columns: 1fr; gap: 32px; }
