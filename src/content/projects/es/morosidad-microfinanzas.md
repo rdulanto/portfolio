@@ -6,6 +6,7 @@ tags: [Microfinanzas, Series de tiempo, Calidad de datos]
 date: 2026-11-12
 lang: es
 slug: morosidad-microfinanzas
+ref: morosidad
 image: /img/morosidad-dashboard.png
 thumb: /img/morosidad-thumb.webp
 repo: https://github.com/rdulanto/morosidad-microfinanzas-peru

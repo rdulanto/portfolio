@@ -3,11 +3,11 @@ import { getCollection } from 'astro:content';
 import ProjectPage from '../../../components/ProjectPage.astro';
 export async function getStaticPaths() {
   const all = await getCollection('projects');
-  const es = all.filter((p) => p.data.lang === 'es');
-  return all.filter((p) => p.data.lang === 'en').map((entry, i) => ({
-    params: { slug: entry.data.slug },
-    props: { entry, altHref: es[i] ? `/proyectos/${es[i].data.slug}/` : '/' },
-  }));
+  const alt = (ref: string) => all.find((p) => p.data.lang === 'es' && p.data.ref === ref);
+  return all.filter((p) => p.data.lang === 'en').map((entry) => {
+    const pair = alt(entry.data.ref);
+    return { params: { slug: entry.data.slug }, props: { entry, altHref: pair ? `/proyectos/${pair.data.slug}/` : '/' } };
+  });
 }
 const { entry, altHref } = Astro.props;
 ---

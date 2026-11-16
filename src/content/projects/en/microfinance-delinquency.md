@@ -6,6 +6,7 @@ tags: [Microfinance, Time series, Data quality]
 date: 2026-11-12
 lang: en
 slug: microfinance-delinquency
+ref: morosidad
 image: /img/morosidad-dashboard.png
 thumb: /img/morosidad-thumb.webp
 repo: https://github.com/rdulanto/morosidad-microfinanzas-peru

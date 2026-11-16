@@ -18,8 +18,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <title>{title ?? t.htmlTitle}</title>
   <meta name="description" content={description ?? t.description} />
   <link rel="canonical" href={canonical} />
-  <link rel="alternate" hreflang="es" href={new URL('/', Astro.site)} />
-  <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site)} />
+  <link rel="alternate" hreflang="es" href={new URL(lang === 'es' ? Astro.url.pathname : (altHref ?? '/'), Astro.site)} />
+  <link rel="alternate" hreflang="en" href={new URL(lang === 'en' ? Astro.url.pathname : (altHref ?? '/en/'), Astro.site)} />
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title ?? t.htmlTitle} />
   <meta property="og:description" content={description ?? t.description} />

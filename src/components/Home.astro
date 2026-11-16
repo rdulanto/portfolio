@@ -59,12 +59,6 @@ const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
             <span class="more">{t.readProject} →</span>
           </a>
         ))}
-        {t.upcoming.map((u) => (
-          <div class="card project upcoming">
-            <div><span class="tag">{u.tag}</span><span class="tag soon">{t.soon}</span></div>
-            <h3>{u.t}</h3>
-          </div>
-        ))}
       </div>
     </div>
   </section>
@@ -128,9 +122,6 @@ const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
   .project img { border-radius: 8px; border: 1px solid var(--line); margin-bottom: 8px; aspect-ratio: 16/7; object-fit: cover; object-position: left center; }
   .project p { color: var(--muted); margin: 0; font-size: .95rem; }
   .more { color: var(--accent); font-weight: 600; font-size: .9rem; margin-top: auto; padding-top: 8px; }
-  .upcoming { background: transparent; border-style: dashed; }
-  .upcoming h3 { color: var(--muted); }
-  .soon { background: transparent; border: 1px solid var(--line); }
   .case-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 20px; }
   .case-head span { color: var(--muted); font-size: .9rem; }
   .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }

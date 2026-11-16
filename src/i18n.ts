@@ -27,11 +27,6 @@ export const ui = {
     projectsTitle: 'Proyectos',
     projectsLead: 'Preguntas de negocio reales respondidas con datos públicos, código abierto y dashboards. Un proyecto nuevo cada mes.',
     readProject: 'Ver proyecto',
-    soon: 'Próximamente',
-    upcoming: [
-      { tag: 'LLM · Gobierno de datos', t: '¿Puede un asistente con IA responder preguntas sobre normativa citando sus fuentes?' },
-      { tag: 'ML · Educación', t: '¿Qué factores anticipan la deserción universitaria en el Perú?' },
-    ],
     caseTitle: 'Caso de experiencia',
     case: {
       org: 'Entidad financiera especializada en crédito', role: 'Jefe de CRM y Experiencia del Cliente · 2 años',
@@ -84,11 +79,6 @@ export const ui = {
     projectsTitle: 'Projects',
     projectsLead: 'Real business questions answered with public data, open code and dashboards. A new project every month.',
     readProject: 'View project',
-    soon: 'Coming soon',
-    upcoming: [
-      { tag: 'LLM · Data governance', t: 'Can an AI assistant answer regulatory questions while citing its sources?' },
-      { tag: 'ML · Education', t: 'What factors predict university dropout in Peru?' },
-    ],
     caseTitle: 'Experience case',
     case: {
       org: 'Specialized lending institution', role: 'Head of CRM & Customer Experience · 2 years',
