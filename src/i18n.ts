@@ -10,7 +10,6 @@ export const ui = {
     headline: 'Convierto datos en decisiones con IA que sí llega a producción.',
     lead: 'Consultor y líder en IA, Machine Learning y Gobierno de Datos, con más de 14 años en banca y microfinanzas.',
     ctaPrimary: 'Agenda una llamada de 20 min',
-    ctaSecondary: 'Descargar CV',
     proofs: [
       { k: '−93%', t: 'tiempo de ingesta de datos en un banco de microfinanzas: de 10 horas a 45 minutos' },
       { k: '10', t: 'proyectos de machine learning coordinados con MLOps en Azure' },
@@ -62,7 +61,6 @@ export const ui = {
     headline: 'I turn data into decisions with AI that actually reaches production.',
     lead: 'AI, Machine Learning and Data Governance consultant and leader, with 14+ years in banking and microfinance.',
     ctaPrimary: 'Book a 20-min call',
-    ctaSecondary: 'Download CV',
     proofs: [
       { k: '−93%', t: 'data ingestion time at a microfinance bank: from 10 hours to 45 minutes' },
       { k: '10', t: 'machine learning projects coordinated with MLOps on Azure' },
