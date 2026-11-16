@@ -3,8 +3,10 @@ export const SITE = {
   name: 'Ricardo Dulanto',
   linkedin: 'https://www.linkedin.com/in/rdulanto/',
   github: 'https://github.com/rdulanto',
-  // TODO(Rick): crear el evento de 20 min en Cal.com y confirmar este enlace.
-  calendar: 'https://cal.com/rdulanto/20min',
+  // Página de reservas de Google Calendar (cita de 20 min). Mientras esté vacía, el botón lleva a LinkedIn.
+  calendar: '',
   // El ID de medición de GA4 es público por diseño; se inyecta al compilar.
   gaId: import.meta.env.PUBLIC_GA_ID ?? '',
 };
+
+export const BOOKING = SITE.calendar || SITE.linkedin;

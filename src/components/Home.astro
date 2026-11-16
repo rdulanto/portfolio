@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { SITE } from '../config';
+import { BOOKING, SITE } from '../config';
 import { ui, type Lang } from '../i18n';
 
 const { lang } = Astro.props as { lang: Lang };
@@ -17,7 +17,7 @@ const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
       <h1>{t.headline}</h1>
       <p class="hero-lead">{t.lead}</p>
       <div class="ctas">
-        <a class="btn btn-primary" href={SITE.calendar} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
+        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
       </div>
     </div>
     <picture class="photo">
@@ -94,7 +94,7 @@ const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
       <h2>{t.contactTitle}</h2>
       <p class="lead">{t.contactLead}</p>
       <div class="ctas">
-        <a class="btn btn-primary" href={SITE.calendar} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
+        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
         <a class="btn btn-ghost" href={SITE.linkedin} rel="noopener" target="_blank">LinkedIn</a>
         <a class="btn btn-ghost" href={SITE.github} rel="noopener" target="_blank">GitHub</a>
       </div>
