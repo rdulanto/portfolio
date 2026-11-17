@@ -10,7 +10,7 @@ Sitio personal bilingüe (ES/EN) de Ricardo Dulanto: consultoría y liderazgo en
 
 ## Publicar un proyecto nuevo
 
-1. Crea `src/content/projects/es/<slug>.md` y `src/content/projects/en/<slug>.md` con el mismo orden de archivo (ver los existentes como plantilla).
+1. Crea `src/content/projects/es/<slug>.md` y `src/content/projects/en/<slug>.md` con el mismo valor en `ref` (así se enlazan la versión en español y en inglés). Usa los existentes como plantilla; el campo `demo` es el enlace al dashboard en Railway.
 2. Agrega las imágenes en `public/img/`.
 3. Haz push a `main`. Railway compila y publica solo.
 
