@@ -4,7 +4,7 @@ export const SITE = {
   linkedin: 'https://www.linkedin.com/in/rdulanto/',
   github: 'https://github.com/rdulanto',
   // Página de reservas de Google Calendar (cita de 20 min). Mientras esté vacía, el botón lleva a LinkedIn.
-  calendar: '',
+  calendar: 'https://calendar.app.google/JvY6SMGxLWgQD51H8',
   // El ID de medición de GA4 es público por diseño; se inyecta al compilar.
   gaId: import.meta.env.PUBLIC_GA_ID ?? '',
 };
