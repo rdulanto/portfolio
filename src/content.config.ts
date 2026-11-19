@@ -20,4 +20,18 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+const notes = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/notes' }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    date: z.coerce.date(),
+    lang: z.enum(['es', 'en']),
+    slug: z.string(),
+    ref: z.string(), // mismo valor en la versión ES y EN de una nota
+    tags: z.array(z.string()),
+    draft: z.boolean().default(false), // los borradores no se publican
+  }),
+});
+
+export const collections = { projects, notes };

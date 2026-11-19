@@ -39,7 +39,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <nav aria-label="Principal">
         <a href={`${home}#servicios`}>{t.nav.services}</a>
         <a href={`${home}#proyectos`}>{t.nav.projects}</a>
-        <a href={`${home}#caso`}>{t.nav.case}</a>
+        <a href={lang === 'es' ? '/notas/' : '/en/notes/'}>{t.nav.notes}</a>
         <a href={`${home}#credenciales`}>{t.nav.credentials}</a>
         <a href={altHref ?? t.switchHref} class="lang" hreflang={lang === 'es' ? 'en' : 'es'}>{t.switchLang}</a>
       </nav>

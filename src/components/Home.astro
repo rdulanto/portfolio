@@ -2,13 +2,15 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { BOOKING, SITE } from '../config';
-import { ui, type Lang } from '../i18n';
+import { ui, NB, type Lang } from '../i18n';
+import { publishedNotes, notePath, notesIndex } from '../lib/notes';
 
 const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
 const projects = (await getCollection('projects', (p) => p.data.lang === lang))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
+const notes = (await publishedNotes(lang)).slice(0, 3);
 ---
 <Base lang={lang}>
   <div class="wrap hero">
@@ -61,6 +63,45 @@ const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
       </div>
     </div>
   </section>
+
+  <section id="docencia">
+    <div class="wrap">
+      <h2>{t.teachTitle}</h2>
+      <p class="lead">{t.teachLead}</p>
+      <div class="grid projects">
+        {t.labs.map((l) => (
+          <div class="card project lab">
+            <div><span class="tag">{l.tag}</span><span class="tag">Python · Colab</span></div>
+            <h3>{l.t}</h3>
+            <div class="lab-links">
+              <a href={NB.github + l.file} rel="noopener" target="_blank">{t.openNb} →</a>
+              <a href={NB.colab + l.file} rel="noopener" target="_blank">{t.openColab} →</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {notes.length > 0 && (
+  <section id="notas">
+    <div class="wrap">
+      <h2>{t.notesTitle}</h2>
+      <p class="lead">{t.notesLead}</p>
+      <div class="grid projects">
+        {notes.map((n) => (
+          <a class="card project" href={notePath(lang, n.data.slug)}>
+            <div>{n.data.tags.map((g) => <span class="tag">{g}</span>)}</div>
+            <h3>{n.data.title}</h3>
+            <p>{n.data.summary}</p>
+            <span class="more">{t.readNote} →</span>
+          </a>
+        ))}
+      </div>
+      <p><a href={notesIndex(lang)}>{t.allNotes} →</a></p>
+    </div>
+  </section>
+  )}
 
   <section id="caso">
     <div class="wrap">
@@ -116,6 +157,8 @@ const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
   .services p { color: var(--muted); margin: 0; }
   .num { color: var(--accent); font-weight: 700; font-size: .85rem; display: block; margin-bottom: 12px; }
   .projects { grid-template-columns: repeat(3, 1fr); }
+  .lab-links { margin-top: auto; display: flex; gap: 18px; flex-wrap: wrap; font-weight: 600; font-size: .95rem; }
+  .lab-links a { text-decoration: none; }
   .project { text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, transform .15s; }
   a.project:hover { border-color: var(--accent); transform: translateY(-2px); }
   .project img { border-radius: 8px; border: 1px solid var(--line); margin-bottom: 8px; aspect-ratio: 16/7; object-fit: cover; object-position: left center; }

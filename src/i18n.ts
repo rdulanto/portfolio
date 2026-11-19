@@ -1,10 +1,12 @@
 export type Lang = 'es' | 'en';
 
+export const NB = { github: 'https://github.com/rdulanto/material-docente-ia/blob/main/notebooks/', colab: 'https://colab.research.google.com/github/rdulanto/material-docente-ia/blob/main/notebooks/' };
+
 export const ui = {
   es: {
     htmlTitle: 'Ricardo Dulanto · Consultor en IA, ML y Gobierno de Datos',
     description: 'Consultor y líder en IA, Machine Learning y Gobierno de Datos con más de 14 años en banca y microfinanzas. Proyectos con código y dashboards.',
-    nav: { services: 'Servicios', projects: 'Proyectos', case: 'Caso', credentials: 'Credenciales', contact: 'Contacto' },
+    nav: { services: 'Servicios', projects: 'Proyectos', notes: 'Notas', credentials: 'Credenciales', contact: 'Contacto' },
     switchLang: 'EN', switchHref: '/en/',
     eyebrow: 'Consultor en IA y ML · Data & AI Lead',
     headline: 'Convierto datos en decisiones con IA que sí llega a producción.',
@@ -26,6 +28,19 @@ export const ui = {
     projectsTitle: 'Proyectos',
     projectsLead: 'Preguntas de negocio reales respondidas con datos públicos, código abierto y dashboards. Un proyecto nuevo cada mes.',
     readProject: 'Ver proyecto',
+    teachTitle: 'Material docente',
+    teachLead: 'Laboratorios que uso en mis clases y talleres. Cada uno parte de una pregunta de negocio y llega a una respuesta con números. Datos sintéticos, código abierto.',
+    labs: [
+      { tag: 'Clasificación', t: '¿Qué clientes de una telco están por irse y cuánto ingreso representan?', file: '01_churn_telco.ipynb' },
+      { tag: 'Calidad de datos', t: 'El sensor que marca 999: calidad de datos y fuga de información en un secador industrial', file: '02_calidad_datos_secado.ipynb' },
+      { tag: 'Clustering', t: '¿Qué perfiles de uso tienen 180 máquinas sin etiquetas previas?', file: '03_clustering_maquinas.ipynb' },
+    ],
+    openNb: 'Ver notebook', openColab: 'Abrir en Colab',
+    notesTitle: 'Notas',
+    notesLead: 'Artículos cortos sobre decisiones reales de datos e IA.',
+    allNotes: 'Ver todas las notas',
+    backNotes: '← Volver a notas',
+    readNote: 'Leer',
     caseTitle: 'Caso de experiencia',
     case: {
       org: 'Entidad financiera especializada en crédito', role: 'Jefe de CRM y Experiencia del Cliente · 2 años',
@@ -55,7 +70,7 @@ export const ui = {
   en: {
     htmlTitle: 'Ricardo Dulanto · AI, ML & Data Governance Consultant',
     description: 'AI, Machine Learning and Data Governance consultant and leader with 14+ years in banking and microfinance. Projects with code and dashboards.',
-    nav: { services: 'Services', projects: 'Projects', case: 'Case', credentials: 'Credentials', contact: 'Contact' },
+    nav: { services: 'Services', projects: 'Projects', notes: 'Notes', credentials: 'Credentials', contact: 'Contact' },
     switchLang: 'ES', switchHref: '/',
     eyebrow: 'AI & ML Consultant · Data & AI Lead',
     headline: 'I turn data into decisions with AI that actually reaches production.',
@@ -77,6 +92,19 @@ export const ui = {
     projectsTitle: 'Projects',
     projectsLead: 'Real business questions answered with public data, open code and dashboards. A new project every month.',
     readProject: 'View project',
+    teachTitle: 'Teaching material',
+    teachLead: 'Labs I use in my classes and workshops. Each starts from a business question and ends with a quantified answer. Synthetic data, open code. Notebooks in Spanish.',
+    labs: [
+      { tag: 'Classification', t: 'Which telco customers are about to leave, and how much revenue do they represent?', file: '01_churn_telco.ipynb' },
+      { tag: 'Data quality', t: 'The sensor that reads 999: data quality and leakage in an industrial dryer', file: '02_calidad_datos_secado.ipynb' },
+      { tag: 'Clustering', t: 'Which usage profiles exist across 180 unlabeled machines?', file: '03_clustering_maquinas.ipynb' },
+    ],
+    openNb: 'View notebook', openColab: 'Open in Colab',
+    notesTitle: 'Notes',
+    notesLead: 'Short articles on real data and AI decisions.',
+    allNotes: 'See all notes',
+    backNotes: '← Back to notes',
+    readNote: 'Read',
     caseTitle: 'Experience case',
     case: {
       org: 'Specialized lending institution', role: 'Head of CRM & Customer Experience · 2 years',
