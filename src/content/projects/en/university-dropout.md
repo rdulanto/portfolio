@@ -9,6 +9,7 @@ slug: university-dropout
 ref: desercion
 image: /img/desercion-dashboard.png
 thumb: /img/desercion-thumb.webp
+demo: https://desercion-universitaria-peru-production.up.railway.app/
 repo: https://github.com/rdulanto/desercion-universitaria-peru
 ---
 

@@ -9,6 +9,7 @@ slug: microfinance-delinquency
 ref: morosidad
 image: /img/morosidad-dashboard.png
 thumb: /img/morosidad-thumb.webp
+demo: https://morosidad-microfinanzas-peru-production.up.railway.app/
 repo: https://github.com/rdulanto/morosidad-microfinanzas-peru
 ---
 
