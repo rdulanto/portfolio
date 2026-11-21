@@ -1,0 +1,16 @@
+{
+  "_instrucciones": "Plantilla del servidor Figma con token personal (Framelink figma-developer-mcp). NO pegues el token aqui: exportalo en tu terminal (export FIGMA_API_KEY=figd_xxx en ~/.zshrc). Para activarlo copia el bloque 'figma-token' dentro de mcpServers de .mcp.json, o usa el comando claude mcp add del README de esta carpeta.",
+  "mcpServers": {
+    "figma-token": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "figma-developer-mcp@0.13.2",
+        "--stdio"
+      ],
+      "env": {
+        "FIGMA_API_KEY": "${FIGMA_API_KEY}"
+      }
+    }
+  }
+}
