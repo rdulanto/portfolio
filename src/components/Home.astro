@@ -45,6 +45,9 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
         <div><dt class="num hl">{p.k}</dt><dd>{p.t}</dd></div>
       ))}
     </dl>
+    <ul class="creds" aria-label={lang === 'es' ? 'Credenciales' : 'Credentials'}>
+      {t.credLine.map((c) => <li class="mono">{c}</li>)}
+    </ul>
   </div>
 
   <section id="servicios" class="band">
@@ -158,12 +161,15 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
   .doors .go { margin-top: auto; color: var(--link); font-weight: 600; font-size: .92rem; display: inline-flex; gap: 6px; }
   @media (hover: hover) and (pointer: fine) { .doors a:hover { background: var(--sand); } .doors a:hover .arrow { transform: translateX(3px); } }
 
-  .proofs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 24px 0 88px; }
-  .proofs div { padding: 8px 32px 8px 0; }
-  .proofs div + div { padding-left: 32px; border-left: 1px solid var(--line); }
-  .proofs dt { font-size: clamp(2rem, 3.6vw, 2.75rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 12px; }
+  .proofs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 24px 0 0; }
+  .proofs div { padding: 8px 24px 8px 0; }
+  .proofs div + div { padding-left: 24px; border-left: 1px solid var(--line); }
+  .proofs dt { font-size: clamp(1.75rem, 2.6vw, 2.25rem); font-weight: 700; letter-spacing: -0.035em; white-space: nowrap; line-height: 1.05; margin-bottom: 12px; }
   .proofs dd { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.5; max-width: 34ch; }
 
+  .creds { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 0; margin: 24px 0 88px; padding: 16px 0 0; border-top: 1px solid var(--line); }
+  .creds li { color: var(--ink); }
+  .creds li + li::before { content: '·'; margin: 0 12px; color: var(--muted); }
   .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .custom { margin-top: 24px; display: flex; gap: 24px 48px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 32px; border: 1px dashed var(--line); border-radius: var(--radius); }
   .custom h3 { margin: 8px 0; font-size: 1.25rem; }
@@ -193,6 +199,10 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
   @media (max-width: 960px) {
     .hero { padding-top: 72px; }
     .doors { grid-template-columns: 1fr; }
+    .proofs { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
+    .proofs div + div:nth-child(3) { padding-left: 0; border-left: 0; }
+    .creds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; }
+    .creds li + li::before { content: none; }
     .doors a + a { border-left: 0; border-top: 1px solid var(--line); }
     .projects { grid-template-columns: 1fr 1fr; }
     .course-list { grid-template-columns: 1fr; }
@@ -201,7 +211,8 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
     .hero { padding-top: 40px; padding-bottom: 40px; }
     .status { border: 0; background: none; padding: 0; align-items: flex-start; }
     .pulse { margin-top: 7px; }
-    .proofs { grid-template-columns: 1fr; margin-bottom: 64px; }
+    .proofs { grid-template-columns: 1fr; row-gap: 0; }
+    .creds { margin-bottom: 64px; grid-template-columns: 1fr; }
     .proofs div, .proofs div + div { padding: 16px 0; border-left: 0; border-top: 1px solid var(--line); }
     .svc-grid, .projects { grid-template-columns: 1fr; }
     .custom { padding: 24px; }

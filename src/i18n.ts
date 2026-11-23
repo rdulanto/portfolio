@@ -19,10 +19,12 @@ export const ui = {
     lead: 'Consultor y líder en IA, Machine Learning y Gobierno de Datos, con más de 14 años en banca y microfinanzas.',
     ctaPrimary: 'Agenda una llamada de 20 min',
     proofs: [
-      { k: '−93%', t: 'tiempo de ingesta de datos en un banco de microfinanzas: de 10 horas a 45 minutos' },
-      { k: '10', t: 'proyectos de machine learning coordinados con MLOps en Azure' },
-      { k: '+1,000', t: 'profesionales y estudiantes formados en IA y analítica' },
+      { k: '10 h → 45 min', t: 'ingesta diaria de datos en un banco de microfinanzas: la información llega al negocio 9 horas antes' },
+      { k: '10', t: 'proyectos de machine learning con MLOps y validación automática de datos, con un equipo de 6 especialistas y proveedores en Azure' },
+      { k: '14+ años', t: 'en banca y microfinanzas, en 4 entidades financieras: de informes para la alta dirección a ingeniería de datos' },
+      { k: '1,000+', t: 'profesionales y estudiantes formados en Python, machine learning y analítica, en 8 universidades e institutos desde 2009' },
     ],
+    credLine: ['IEEE Senior Member', 'Publicación indexada en Scopus', '2 maestrías en Dirección de TI', 'Certificado en Microsoft Azure'],
     servicesTitle: 'Servicios',
     servicesLead: 'Cuatro formas de trabajar juntos. Cada una empieza con una conversación de 20 minutos.',
     services: [
@@ -138,10 +140,12 @@ export const ui = {
     lead: 'AI, Machine Learning and Data Governance consultant and leader, with 14+ years in banking and microfinance.',
     ctaPrimary: 'Book a 20-min call',
     proofs: [
-      { k: '−93%', t: 'data ingestion time at a microfinance bank: from 10 hours to 45 minutes' },
-      { k: '10', t: 'machine learning projects coordinated with MLOps on Azure' },
-      { k: '1,000+', t: 'professionals and students trained in AI and analytics' },
+      { k: '10 h → 45 min', t: 'daily data ingestion at a microfinance bank: the business gets its data 9 hours earlier' },
+      { k: '10', t: 'machine learning projects with MLOps and automated data validation, with a team of 6 specialists and vendors on Azure' },
+      { k: '14+ yrs', t: 'in banking and microfinance across 4 financial institutions: from executive reporting to data engineering' },
+      { k: '1,000+', t: 'professionals and students trained in Python, machine learning and analytics at 8 universities and institutes since 2009' },
     ],
+    credLine: ['IEEE Senior Member', 'Scopus-indexed publication', '2 master’s degrees in IT management', 'Microsoft Azure certified'],
     servicesTitle: 'Services',
     servicesLead: 'Four ways to work together. Each one starts with a 20-minute conversation.',
     services: [
