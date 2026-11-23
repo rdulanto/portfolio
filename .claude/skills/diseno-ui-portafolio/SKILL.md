@@ -13,14 +13,17 @@ marca de Rick ya están tomadas.
 
 ## 0. Decisiones fijas de marca (no se cambian sin que Rick lo pida)
 
-- Fondo claro (`--bg #FAFAF7`), tinta `--ink #1F2933`, acento azul petróleo `--accent #0F5E6E`
+- Paleta D, aprobada por Rick el 2026-11-23: fondo blanco (`--bg #FFFFFF`), tinta grafito `--ink #16181D`,
+  amarillo `--mark #FFC72C` (botón principal, punto del logo, resaltador de cifras `.hl`) y ámbar
+  oscuro `--accent #8A6400` solo para etiquetas e índices. Los enlaces usan `--link` (grafito). Nunca
+  texto amarillo sobre fondo blanco.
   (hover `--accent-ink #0B4855`). Modo oscuro opcional con los tokens de `src/styles/global.css`.
 - Tipografía: **Inter Variable** (`@fontsource-variable/inter`) para todo el texto, y **JetBrains Mono
   Variable** (`--mono`) solo para etiquetas técnicas: categorías, índices 01/02, fechas, duraciones y stack
   (clases `.eyebrow`, `.mono`, `.tag`). Aprobado por Rick el 2026-11-23. No añadir otra familia.
 - Minimalista y muy profesional. Bilingüe ES/EN: toda vista existe en los dos idiomas y ambas
   versiones deben caber sin romper el diseño (el inglés suele ser más corto, el español más largo).
-- Logo: wordmark "ricardo dulanto" + punto petróleo (`src/components/Logo.astro`).
+- Logo: wordmark "ricardo dulanto" + punto amarillo (`src/components/Logo.astro`).
 - No mostrar email ni teléfono. No nombrar a empleadores anteriores.
 - Todo color, radio y medida sale de los tokens de `:root` en `global.css`. Nada de hex sueltos en
   componentes; si falta un token, se añade a `:root` (y a su variante oscura).
@@ -62,9 +65,9 @@ Una sola escala, usada siempre igual. Máximo 4 tamaños visibles por pantalla.
 
 ## 3. Paleta sobria
 
-- Tres familias, nada más: neutros (bg, card, sand, line, ink, muted), el acento petróleo y,
+- Tres familias, nada más: neutros (bg, card, sand, line, ink, muted), el amarillo con su ámbar de texto y,
   solo si comunica un estado de datos, un color semántico (p. ej. rojo para morosidad alta en un
-  gráfico). El acento ocupa poca superficie: botón principal, enlaces, eyebrow, punto del logo.
+  gráfico). El amarillo ocupa poca superficie: botón principal, punto del logo, cifras resaltadas y acentos de la banda oscura.
 - **Prohibido**: degradados de colores, violeta o lavanda, neones, fondos con "glow", sombras
   de color, glassmorphism, más de un color de acento.
 - Sombras: casi ninguna. Si hace falta separar, primero borde `1px solid var(--line)`; una sombra

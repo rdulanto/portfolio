@@ -15,7 +15,7 @@ const home = lang === 'es' ? '/proyectos/' : '/en/projects/';
     <h1>{entry.data.question}</h1>
     <p class="summary">{entry.data.summary}</p>
     {entry.data.kpi && (
-      <p class="kpi"><strong class="num">{entry.data.kpi}</strong><span>{entry.data.kpiText}</span></p>
+      <p class="kpi"><strong class="num hl">{entry.data.kpi}</strong><span>{entry.data.kpiText}</span></p>
     )}
     <div class="links">
       {entry.data.demo && <a class="btn btn-primary" href={entry.data.demo} rel="noopener" target="_blank">{t.demo} <span class="arrow" aria-hidden="true">→</span></a>}
@@ -49,7 +49,7 @@ const home = lang === 'es' ? '/proyectos/' : '/en/projects/';
   h1 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; letter-spacing: -0.03em; margin: 12px 0 16px; text-wrap: balance; }
   .summary { font-size: 1.15rem; line-height: 1.55; color: var(--muted); margin: 0 0 24px; max-width: 65ch; }
   .kpi { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin: 0; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .kpi strong { font-size: 1.75rem; font-weight: 650; letter-spacing: -0.02em; color: var(--accent); line-height: 1.15; }
+  .kpi strong { font-size: 1.75rem; font-weight: 650; letter-spacing: -0.02em; line-height: 1.15; }
   .kpi span { color: var(--muted); font-size: .95rem; }
   .links { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
   .shot { border-radius: var(--radius); border: 1px solid var(--line); overflow: hidden; margin-bottom: 48px; background: #fff; }

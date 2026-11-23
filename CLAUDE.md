@@ -5,7 +5,7 @@ Sitio estático en Astro 7, bilingüe ES/EN. Ver `README.md` para stack, hosting
 ## Diseño (obligatorio antes de escribir HTML, CSS, componentes o Tailwind)
 
 1. Lee `.claude/skills/diseno-ui-portafolio/SKILL.md`: decisiones de marca fijas (fondo claro,
-   Inter, acento azul petróleo `#0F5E6E`, modo oscuro opcional), escala tipográfica, escala de
+   Inter, fondo blanco, grafito y acento amarillo `#FFC72C`, modo oscuro opcional), escala tipográfica, escala de
    espaciado de 4px, paleta sobria, estados hover/focus/active y lista de patrones genéricos
    prohibidos.
 2. Para animaciones y microinteracciones, aplica `.claude/skills/emil-design-eng/SKILL.md`.

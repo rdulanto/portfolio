@@ -13,7 +13,7 @@ const t = ui[lang];
     <p class="mono">{p.data.tags.slice(0, 2).join(' · ')}</p>
     <h3>{p.data.question}</h3>
     {p.data.kpi ? (
-      <p class="kpi"><strong class="num">{p.data.kpi}</strong><span>{p.data.kpiText}</span></p>
+      <p class="kpi"><strong class="num hl">{p.data.kpi}</strong><span>{p.data.kpiText}</span></p>
     ) : (
       <p class="sum">{p.data.summary}</p>
     )}
@@ -30,9 +30,9 @@ const t = ui[lang];
   h3 { margin: 0; font-size: 1.1rem; text-wrap: pretty; }
   .mono { margin: 0; }
   .kpi { margin: 4px 0 0; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 4px; }
-  .kpi strong { font-size: 1.6rem; font-weight: 650; letter-spacing: -0.02em; line-height: 1.15; color: var(--accent); }
+  .kpi strong { font-size: 1.6rem; font-weight: 650; letter-spacing: -0.02em; line-height: 1.15; }
   .kpi span, .sum { color: var(--muted); font-size: .92rem; line-height: 1.5; margin: 0; }
-  .more { margin-top: auto; padding-top: 8px; color: var(--accent); font-weight: 600; font-size: .92rem; display: inline-flex; gap: 6px; min-height: 32px; align-items: center; }
+  .more { margin-top: auto; padding-top: 8px; color: var(--link); font-weight: 600; font-size: .92rem; display: inline-flex; gap: 6px; min-height: 32px; align-items: center; }
   .arrow { display: inline-block; transition: transform .18s var(--ease-out); }
   @media (hover: hover) and (pointer: fine) {
     .project:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: var(--shadow-hover); }

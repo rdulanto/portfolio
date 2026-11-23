@@ -37,8 +37,8 @@ const here = Astro.url.pathname;
   <meta property="og:description" content={description ?? t.description} />
   <meta property="og:image" content={new URL(image, Astro.site)} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#FAFAF7" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#11181C" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#121316" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <script is:inline>
     // Aplica el tema elegido antes de pintar, para que no parpadee.
@@ -120,7 +120,7 @@ const here = Astro.url.pathname;
   .desk { display: flex; gap: 4px; align-items: center; }
   .desk a { color: var(--muted); text-decoration: none; font-size: .92rem; font-weight: 500; padding: 12px 12px; border-radius: 999px; transition: color .15s ease, background-color .15s ease; }
   .desk a[aria-current="page"] { color: var(--ink); }
-  .desk a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 8px; }
+  .desk a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 8px; }
   @media (hover: hover) and (pointer: fine) { .desk a:hover { color: var(--ink); background: var(--sand); } }
   .tools { display: flex; align-items: center; gap: 4px; }
   .icon-btn { display: inline-grid; place-items: center; min-width: 44px; height: 44px; padding: 0 8px; border-radius: 999px; border: 0; background: transparent; color: var(--muted); font: 600 .85rem/1 inherit; font-family: inherit; text-decoration: none; cursor: pointer; transition: color .15s ease, background-color .15s ease, transform .12s var(--ease-out); }
@@ -148,7 +148,7 @@ const here = Astro.url.pathname;
   .foot-id p { margin: 8px 0 0; max-width: 40ch; }
   .foot-links { display: flex; gap: 0 20px; flex-wrap: wrap; justify-content: flex-end; }
   .foot-links a { color: var(--ink); text-decoration: none; font-weight: 500; min-height: 44px; display: inline-flex; align-items: center; }
-  .foot-links a:hover { color: var(--accent); }
+  .foot-links a:hover { text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 4px; }
   .legal { grid-column: 1 / -1; margin: 8px 0 0; padding-top: 24px; border-top: 1px solid var(--line); font-size: .82rem; }
 
   @media (max-width: 1180px) { .desk { display: none; } .menu { display: block; } }

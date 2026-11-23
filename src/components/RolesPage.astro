@@ -25,7 +25,7 @@ const v = t.v2;
   </header>
   <div class="wrap">
     <dl class="proofs">
-      {t.proofs.map((p) => <div><dt class="num">{p.k}</dt><dd>{p.t}</dd></div>)}
+      {t.proofs.map((p) => <div><dt class="num hl">{p.k}</dt><dd>{p.t}</dd></div>)}
     </dl>
   </div>
   <section>
@@ -60,7 +60,7 @@ const v = t.v2;
   .proofs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 32px 0; }
   .proofs div { padding-right: 32px; }
   .proofs div + div { padding-left: 32px; border-left: 1px solid var(--line); }
-  .proofs dt { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 700; letter-spacing: -0.03em; color: var(--accent); }
+  .proofs dt { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 700; letter-spacing: -0.03em; }
   .proofs dd { margin: 4px 0 0; color: var(--muted); font-size: .92rem; max-width: 34ch; }
   .roles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
   .roles > li { display: grid; grid-template-columns: 48px minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.2fr); gap: 16px 40px; padding: 32px 0; border-bottom: 1px solid var(--line); align-items: start; }
