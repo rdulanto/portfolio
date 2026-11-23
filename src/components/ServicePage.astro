@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from './ProjectCard.astro';
+import { BOOKING } from '../config';
+import { ui, type Lang } from '../i18n';
+import { services, paths, type Service } from '../data/offer';
+const { lang, s } = Astro.props as { lang: Lang; s: Service };
+const t = ui[lang];
+const v = t.v2;
+const other = services[lang === 'es' ? 'en' : 'es'].find((x) => x.id === s.id)!;
+const altHref = paths.service(lang === 'es' ? 'en' : 'es', other.slug);
+const related = s.related ? (await getCollection('projects', (p) => p.data.lang === lang && p.data.ref === s.related))[0] : undefined;
+const rest = services[lang].filter((x) => x.id !== s.id);
+---
+<Base lang={lang} title={`${s.title} · Ricardo Dulanto`} description={s.purpose} altHref={altHref}>
+  <header class="wrap page-head">
+    <a class="link back" href={paths.consulting(lang)}>{v.backCons}</a>
+    <p class="eyebrow">{s.n} · {s.cat}</p>
+    <h1>{s.title}</h1>
+    <p class="lead">{s.purpose}</p>
+    <dl class="facts">
+      <div><dt class="mono">{v.duration}</dt><dd>{s.duration}</dd></div>
+      <div><dt class="mono">{v.format}</dt><dd>{s.format}</dd></div>
+    </dl>
+    <div class="ctas"><a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span aria-hidden="true">→</span></a></div>
+  </header>
+
+  <section>
+    <div class="wrap split">
+      <h2><span class="mono">01</span>{v.forWhom}</h2>
+      <ol class="cards three">{s.forWhom.map((f, i) => <li><span class="mono">{String(i + 1).padStart(2, '0')}</span><p>{f}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap split">
+      <h2><span class="mono">02</span>{v.youGet}</h2>
+      <ol class="cards three">{s.deliverables.map((d, i) => <li><span class="mono">{String(i + 1).padStart(2, '0')}</span><h3>{d.t}</h3><p>{d.d}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <h2><span class="mono">03</span>{v.howWeWork}</h2>
+      <ol class="steps">{s.steps.map((d, i) => <li><span class="dot mono">{i + 1}</span><h3>{d.t}</h3><p>{d.d}</p></li>)}</ol>
+    </div>
+  </section>
+
+  {related && (
+  <section class="alt">
+    <div class="wrap split">
+      <h2><span class="mono">04</span>{v.related}</h2>
+      <div class="rel"><ProjectCard p={related} lang={lang} /></div>
+    </div>
+  </section>
+  )}
+
+  <section>
+    <div class="wrap split">
+      <h2><span class="mono">{related ? '05' : '04'}</span>{v.faq}</h2>
+      <div class="faq">
+        {s.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap end">
+      <div>
+        <h2>{v.custom.t}</h2>
+        <p class="lead">{v.custom.d}</p>
+        <div class="ctas"><a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span aria-hidden="true">→</span></a></div>
+      </div>
+      <nav class="others" aria-label={v.otherServices}>
+        <p class="mono">{v.otherServices}</p>
+        {rest.map((x) => <a href={paths.service(lang, x.slug)}><span class="mono">{x.n}</span>{x.title}</a>)}
+      </nav>
+    </div>
+  </section>
+</Base>
+<style>
+  .facts { display: flex; flex-wrap: wrap; gap: 16px 48px; margin: 32px 0 0; }
+  .facts dt { margin-bottom: 4px; }
+  .facts dd { margin: 0; font-weight: 600; }
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: 32px 64px; align-items: start; }
+  .split > h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); display: grid; gap: 8px; margin: 0; position: sticky; top: calc(var(--header) + 24px); }
+  .split > h2 .mono { color: var(--accent); }
+  .cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+  .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cards li { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: grid; align-content: start; gap: 12px; }
+  .cards .mono { color: var(--accent); }
+  .cards h3 { margin: 0; }
+  .cards p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; counter-reset: s; }
+  .steps li { position: relative; padding-top: 48px; border-top: 1px solid var(--ink); }
+  .steps .dot { position: absolute; top: 12px; left: 0; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: .75rem; }
+  .steps h3 { margin: 0 0 8px; }
+  .steps p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .rel { max-width: 420px; display: grid; }
+  .faq { border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; list-style: none; padding: 20px 40px 20px 0; font-weight: 600; position: relative; min-height: 44px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; position: absolute; right: 8px; top: 18px; font-family: var(--mono); color: var(--accent); font-size: 1.2rem; transition: transform .2s var(--ease-out); }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { margin: 0 0 20px; color: var(--muted); max-width: 65ch; }
+  .end { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 48px 64px; align-items: start; }
+  .end h2 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); margin-bottom: 16px; }
+  .end .ctas { margin-top: 32px; }
+  .others { display: grid; border-top: 1px solid var(--line); }
+  .others .mono { margin: 16px 0 8px; }
+  .others a { display: grid; grid-template-columns: 40px 1fr; gap: 8px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 600; }
+  .others a .mono { margin: 0; color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) { .others a:hover { color: var(--accent); } }
+  @media (max-width: 960px) {
+    .split, .end { grid-template-columns: 1fr; }
+    .split > h2 { position: static; }
+    .three, .steps { grid-template-columns: 1fr; }
+  }
+</style>

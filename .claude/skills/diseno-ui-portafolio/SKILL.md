@@ -15,7 +15,9 @@ marca de Rick ya están tomadas.
 
 - Fondo claro (`--bg #FAFAF7`), tinta `--ink #1F2933`, acento azul petróleo `--accent #0F5E6E`
   (hover `--accent-ink #0B4855`). Modo oscuro opcional con los tokens de `src/styles/global.css`.
-- Tipografía única: **Inter Variable** (`@fontsource-variable/inter`). No añadir otra familia.
+- Tipografía: **Inter Variable** (`@fontsource-variable/inter`) para todo el texto, y **JetBrains Mono
+  Variable** (`--mono`) solo para etiquetas técnicas: categorías, índices 01/02, fechas, duraciones y stack
+  (clases `.eyebrow`, `.mono`, `.tag`). Aprobado por Rick el 2026-11-23. No añadir otra familia.
 - Minimalista y muy profesional. Bilingüe ES/EN: toda vista existe en los dos idiomas y ambas
   versiones deben caber sin romper el diseño (el inglés suele ser más corto, el español más largo).
 - Logo: wordmark "ricardo dulanto" + punto petróleo (`src/components/Logo.astro`).

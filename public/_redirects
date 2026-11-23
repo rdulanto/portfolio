@@ -1,0 +1,3 @@
+# Redirecciones de Cloudflare Pages (las notas pasaron a llamarse blog).
+/notas/* /blog/:splat 301
+/en/notes/* /en/blog/:splat 301

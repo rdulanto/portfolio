@@ -1,7 +1,7 @@
 ---
 title: Microfinance delinquency in Peru
 question: Has microfinance delinquency returned to pre-pandemic levels?
-summary: Yes, and lower. Mibanco is at 3.82%, 1.6 points below 2019, and its gap with the banking system has halved. Compartamos is the exception.
+summary: Yes, and lower. The largest microfinance lender is at 3.82%, 1.6 points below 2019, and its gap with the banking system has halved. Compartamos is the exception.
 tags: [Microfinance, Time series, Data quality]
 date: 2026-11-12
 kpi: "2.3 → 1.0"
@@ -27,7 +27,7 @@ Past-due loans over total loans (%) by bank, monthly, January 2018 to September 
 
 | Question | Answer |
 | --- | --- |
-| Back to pre-pandemic levels? | Yes. Mibanco is at 3.82%, vs. 5.40% in 2019, after a 9.16% peak in March 2021. |
+| Back to pre-pandemic levels? | Yes. The largest microfinance lender is at 3.82%, vs. 5.40% in 2019, after a 9.16% peak in March 2021. |
 | Has the gap with banks closed? | Yes. It fell from 2.3 points in 2019 to 1.0 in 2026. |
 | Any warning signs? | Compartamos rose from 4.30% to 5.24% between February and September 2026. |
 | Does unemployment lead delinquency? | 0.76 correlation at a 6-month lead, but only 0.31 excluding the pandemic. |

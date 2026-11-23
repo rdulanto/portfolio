@@ -9,5 +9,5 @@ export async function publishedNotes(lang?: Lang) {
   return all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 
-export const notePath = (lang: Lang, slug: string) => (lang === 'es' ? `/notas/${slug}/` : `/en/notes/${slug}/`);
-export const notesIndex = (lang: Lang) => (lang === 'es' ? '/notas/' : '/en/notes/');
+export const notePath = (lang: Lang, slug: string) => (lang === 'es' ? `/blog/${slug}/` : `/en/blog/${slug}/`);
+export const notesIndex = (lang: Lang) => (lang === 'es' ? '/blog/' : '/en/blog/');

@@ -4,6 +4,8 @@ import Logo from '../components/Logo.astro';
 import Analytics from '../components/Analytics.astro';
 import { ui, type Lang } from '../i18n';
 import { SITE, BOOKING } from '../config';
+import { paths } from '../data/offer';
+import { notesIndex } from '../lib/notes';
 
 interface Props { lang: Lang; title?: string; description?: string; altHref?: string; image?: string }
 const { lang, title, description, altHref, image = '/img/ricardo-dulanto.jpg' } = Astro.props;
@@ -11,11 +13,14 @@ const t = ui[lang];
 const home = lang === 'es' ? '/' : '/en/';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const links = [
-  { href: `${home}#servicios`, label: t.nav.services },
-  { href: `${home}#proyectos`, label: t.nav.projects },
-  { href: lang === 'es' ? '/notas/' : '/en/notes/', label: t.nav.notes },
-  { href: `${home}#credenciales`, label: t.nav.credentials },
+  { href: paths.consulting(lang), label: t.nav.services },
+  { href: paths.courses(lang), label: t.nav.courses },
+  { href: paths.projects(lang), label: t.nav.projects },
+  { href: notesIndex(lang), label: t.nav.notes },
+  { href: paths.roles(lang), label: t.nav.roles },
+  { href: paths.about(lang), label: t.nav.about },
 ];
+const here = Astro.url.pathname;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -51,7 +56,7 @@ const links = [
     <div class="wrap bar">
       <Logo href={home} />
       <nav class="desk" aria-label={t.nav.label}>
-        {links.map((l) => <a href={l.href}>{l.label}</a>)}
+        {links.map((l) => <a href={l.href} aria-current={here.startsWith(l.href) ? 'page' : undefined}>{l.label}</a>)}
       </nav>
       <div class="tools">
         <a href={altHref ?? t.switchHref} class="icon-btn lang" hreflang={lang === 'es' ? 'en' : 'es'} aria-label={t.switchLabel}>{t.switchLang}</a>
@@ -80,9 +85,9 @@ const links = [
         <p>{t.footerTag}</p>
       </div>
       <nav class="foot-links" aria-label={t.nav.footer}>
+        {links.map((l) => <a href={l.href}>{l.label}</a>)}
         <a href={SITE.linkedin} rel="noopener" target="_blank">LinkedIn</a>
         <a href={SITE.github} rel="noopener" target="_blank">GitHub</a>
-        <a href={BOOKING} rel="noopener" target="_blank">{t.ctaShort}</a>
       </nav>
       <p class="legal">© {new Date().getFullYear()} Ricardo Dulanto · {t.footer}</p>
     </div>
@@ -114,6 +119,8 @@ const links = [
   .bar :global(.logo) { margin-right: auto; }
   .desk { display: flex; gap: 4px; align-items: center; }
   .desk a { color: var(--muted); text-decoration: none; font-size: .92rem; font-weight: 500; padding: 12px 12px; border-radius: 999px; transition: color .15s ease, background-color .15s ease; }
+  .desk a[aria-current="page"] { color: var(--ink); }
+  .desk a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 8px; }
   @media (hover: hover) and (pointer: fine) { .desk a:hover { color: var(--ink); background: var(--sand); } }
   .tools { display: flex; align-items: center; gap: 4px; }
   .icon-btn { display: inline-grid; place-items: center; min-width: 44px; height: 44px; padding: 0 8px; border-radius: 999px; border: 0; background: transparent; color: var(--muted); font: 600 .85rem/1 inherit; font-family: inherit; text-decoration: none; cursor: pointer; transition: color .15s ease, background-color .15s ease, transform .12s var(--ease-out); }
@@ -139,11 +146,11 @@ const links = [
   footer { border-top: 1px solid var(--line); padding: 48px 0 32px; color: var(--muted); font-size: .9rem; }
   .foot { display: grid; grid-template-columns: 1fr auto; gap: 24px 48px; align-items: start; }
   .foot-id p { margin: 8px 0 0; max-width: 40ch; }
-  .foot-links { display: flex; gap: 4px 16px; flex-wrap: wrap; }
+  .foot-links { display: flex; gap: 0 20px; flex-wrap: wrap; justify-content: flex-end; max-width: 560px; }
   .foot-links a { color: var(--ink); text-decoration: none; font-weight: 500; min-height: 44px; display: inline-flex; align-items: center; }
   .foot-links a:hover { color: var(--accent); }
   .legal { grid-column: 1 / -1; margin: 8px 0 0; padding-top: 24px; border-top: 1px solid var(--line); font-size: .82rem; }
 
-  @media (max-width: 960px) { .desk { display: none; } .menu { display: block; } }
+  @media (max-width: 1180px) { .desk { display: none; } .menu { display: block; } }
   @media (max-width: 520px) { .head-cta { display: none; } .bar { gap: 8px; } .foot { grid-template-columns: 1fr; } }
 </style>

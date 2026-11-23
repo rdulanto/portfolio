@@ -32,6 +32,7 @@ const notes = defineCollection({
     slug: z.string(),
     ref: z.string(), // mismo valor en la versión ES y EN de una nota
     tags: z.array(z.string()),
+    category: z.enum(['guia', 'investigacion']).default('guia'), // Guías prácticas | Investigación
     draft: z.boolean().default(false), // los borradores no se publican
   }),
 });

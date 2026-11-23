@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from './ProjectCard.astro';
+import { ui, type Lang } from '../i18n';
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const projects = (await getCollection('projects', (p) => p.data.lang === lang))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base lang={lang} title={`${t.projectsTitle} · Ricardo Dulanto`} description={t.projectsLead} altHref={lang === 'es' ? '/en/projects/' : '/proyectos/'}>
+  <header class="wrap page-head">
+    <p class="eyebrow">{t.nav.projects}</p>
+    <h1>{t.v2.projectsTitle}</h1>
+    <p class="lead">{t.projectsLead}</p>
+  </header>
+  <div class="wrap body">
+    <div class="grid projects">{projects.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
+  </div>
+</Base>
+<style>
+  .body { padding-top: 56px; padding-bottom: 96px; }
+  .projects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 960px) { .projects { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 720px) { .projects { grid-template-columns: 1fr; } }
+</style>

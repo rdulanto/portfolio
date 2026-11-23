@@ -6,7 +6,7 @@ const { entry, altHref } = Astro.props;
 const lang = entry.data.lang as Lang;
 const t = ui[lang];
 const { Content } = await render(entry);
-const home = lang === 'es' ? '/#proyectos' : '/en/#proyectos';
+const home = lang === 'es' ? '/proyectos/' : '/en/projects/';
 ---
 <Base lang={lang} title={`${entry.data.title} · Ricardo Dulanto`} description={entry.data.summary} altHref={altHref} image={entry.data.image}>
   <article class="wrap article">

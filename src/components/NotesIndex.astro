@@ -7,7 +7,7 @@ const t = ui[lang];
 const notes = await publishedNotes(lang);
 const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
-<Base lang={lang} title={`${t.notesTitle} · Ricardo Dulanto`} description={t.notesLead} altHref={lang === 'es' ? '/en/notes/' : '/notas/'}>
+<Base lang={lang} title={`${t.notesTitle} · Ricardo Dulanto`} description={t.notesLead} altHref={lang === 'es' ? '/en/blog/' : '/blog/'}>
   <section class="wrap list">
     <h1>{t.notesTitle}</h1>
     <p class="lead">{t.notesLead}</p>

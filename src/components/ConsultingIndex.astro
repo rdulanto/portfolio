@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import ServiceCard from './ServiceCard.astro';
+import { BOOKING } from '../config';
+import { ui, type Lang } from '../i18n';
+import { services } from '../data/offer';
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const v = t.v2;
+---
+<Base lang={lang} title={`${v.consTitle} · Ricardo Dulanto`} description={v.consLead} altHref={lang === 'es' ? '/en/consulting/' : '/consultoria/'}>
+  <header class="wrap page-head">
+    <p class="eyebrow">{t.nav.services}</p>
+    <h1>{v.consTitle}</h1>
+    <p class="lead">{v.consLead}</p>
+    <div class="ctas"><a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span aria-hidden="true">→</span></a></div>
+  </header>
+  <div class="wrap body">
+    <div class="grid svc-grid">
+      {services[lang].map((s) => <ServiceCard s={s} lang={lang} />)}
+    </div>
+    <div class="custom">
+      <div><p class="mono">{v.custom.k}</p><h2>{v.custom.t}</h2><p>{v.custom.d}</p></div>
+      <a class="btn btn-ghost" href={BOOKING} rel="noopener" target="_blank">{v.custom.cta}</a>
+    </div>
+  </div>
+</Base>
+<style>
+  .body { padding-top: 56px; padding-bottom: 96px; }
+  .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .custom { margin-top: 24px; display: flex; gap: 24px 48px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 32px; background: var(--sand); border-radius: var(--radius); }
+  .custom h2 { margin: 8px 0; font-size: 1.35rem; }
+  .custom p:not(.mono) { margin: 0; color: var(--muted); max-width: 60ch; }
+  .custom .mono { margin: 0; color: var(--accent); }
+  @media (max-width: 720px) { .svc-grid { grid-template-columns: 1fr; } .custom { padding: 24px; } .custom .btn { width: 100%; } }
+</style>

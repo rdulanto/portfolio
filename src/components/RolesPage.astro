@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+import { BOOKING, SITE } from '../config';
+import { ui, type Lang } from '../i18n';
+import { roles, paths } from '../data/offer';
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const v = t.v2;
+---
+<Base lang={lang} title={`${v.rolesTitle} · Ricardo Dulanto`} description={v.rolesLead} altHref={lang === 'es' ? '/en/roles/' : '/roles/'} image="/img/ricardo-dulanto-bn.jpg">
+  <header class="wrap page-head head-grid">
+    <div>
+      <p class="eyebrow">{t.nav.roles}</p>
+      <h1>{v.rolesTitle}</h1>
+      <p class="lead">{v.rolesLead}</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href={SITE.linkedin} rel="noopener" target="_blank">{t.ctaSecondary} <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href={BOOKING} rel="noopener" target="_blank">{t.ctaShort}</a>
+      </div>
+    </div>
+    <picture class="portrait">
+      <source srcset="/img/ricardo-dulanto-bn.webp" type="image/webp" />
+      <img src="/img/ricardo-dulanto-bn.jpg" alt="Ricardo Dulanto" width="800" height="1000" />
+    </picture>
+  </header>
+  <div class="wrap">
+    <dl class="proofs">
+      {t.proofs.map((p) => <div><dt class="num">{p.k}</dt><dd>{p.t}</dd></div>)}
+    </dl>
+  </div>
+  <section>
+    <div class="wrap">
+      <ol class="roles">
+        {roles[lang].map((r, i) => (
+          <li>
+            <p class="mono n">{String(i + 1).padStart(2, '0')}</p>
+            <h2>{r.title}</h2>
+            <div><p class="mono">{v.rolesWhat}</p><p>{r.what}</p></div>
+            <div><p class="mono">{v.rolesProof}</p><ul>{r.proof.map((p) => <li>{p}</li>)}</ul></div>
+          </li>
+        ))}
+      </ol>
+      <p class="more"><a href={paths.projects(lang)}>{v.allProjects} →</a> · <a href={paths.about(lang)}>{t.nav.about} →</a></p>
+    </div>
+  </section>
+  <section class="band">
+    <div class="wrap">
+      <h2>{v.rolesHow}</h2>
+      <p class="lead">{v.rolesHowD}</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href={SITE.linkedin} rel="noopener" target="_blank">LinkedIn <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .head-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+  .portrait img { width: 100%; max-width: 320px; margin-left: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
+  .proofs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 32px 0; }
+  .proofs div { padding-right: 32px; }
+  .proofs div + div { padding-left: 32px; border-left: 1px solid var(--line); }
+  .proofs dt { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 700; letter-spacing: -0.03em; color: var(--accent); }
+  .proofs dd { margin: 4px 0 0; color: var(--muted); font-size: .92rem; max-width: 34ch; }
+  .roles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .roles > li { display: grid; grid-template-columns: 48px minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.2fr); gap: 16px 40px; padding: 32px 0; border-bottom: 1px solid var(--line); align-items: start; }
+  .roles .n { color: var(--accent); margin: 4px 0 0; }
+  .roles h2 { font-size: 1.3rem; margin: 0; }
+  .roles .mono { margin: 0 0 8px; }
+  .roles p:not(.mono) { margin: 0; color: var(--muted); }
+  .roles ul { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 6px; }
+  .more { margin: 32px 0 0; font-weight: 600; }
+  .band h2 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); margin-bottom: 16px; }
+  .band .ctas { margin-top: 32px; }
+  @media (max-width: 960px) {
+    .roles > li { grid-template-columns: 40px minmax(0, 1fr); }
+    .roles > li > div { grid-column: 2; }
+  }
+  @media (max-width: 720px) {
+    .head-grid { grid-template-columns: 1fr; }
+    .portrait { order: -1; }
+    .portrait img { max-width: 200px; margin: 0; }
+    .proofs { grid-template-columns: 1fr; }
+    .proofs div, .proofs div + div { padding: 16px 0; border-left: 0; border-top: 1px solid var(--line); }
+  }
+</style>

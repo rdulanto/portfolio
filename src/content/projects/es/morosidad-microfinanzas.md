@@ -1,7 +1,7 @@
 ---
 title: Morosidad de las microfinanzas en el Perú
 question: ¿La morosidad de las microfinanzas ya volvió a su nivel prepandemia?
-summary: Sí, y por debajo. Mibanco está en 3.82%, 1.6 puntos menos que en 2019, y la brecha con la banca se redujo a la mitad. Compartamos es la excepción.
+summary: Sí, y por debajo. La microfinanciera más grande está en 3.82%, 1.6 puntos menos que en 2019, y la brecha con la banca se redujo a la mitad. Compartamos es la excepción.
 tags: [Microfinanzas, Series de tiempo, Calidad de datos]
 date: 2026-11-12
 kpi: "2.3 → 1.0"
@@ -27,7 +27,7 @@ Cartera atrasada sobre colocaciones (%) por banco, mensual, de enero de 2018 a s
 
 | Pregunta | Respuesta |
 | --- | --- |
-| ¿Volvió al nivel prepandemia? | Sí. Mibanco está en 3.82%, frente a 5.40% en 2019, tras un pico de 9.16% en marzo de 2021. |
+| ¿Volvió al nivel prepandemia? | Sí. La microfinanciera más grande está en 3.82%, frente a 5.40% en 2019, tras un pico de 9.16% en marzo de 2021. |
 | ¿Se cerró la brecha con la banca? | Sí. Bajó de 2.3 puntos en 2019 a 1.0 en 2026. |
 | ¿Hay señales de alerta? | Compartamos sube de 4.30% a 5.24% entre febrero y septiembre de 2026. |
 | ¿El desempleo anticipa la morosidad? | Correlación de 0.76 a 6 meses, pero de solo 0.31 sin la pandemia. |
