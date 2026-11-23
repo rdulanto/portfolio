@@ -19,6 +19,9 @@ const projects = defineCollection({
     demo: z.string().url().optional(),
     kpi: z.string().optional(), // cifra principal que se destaca en la tarjeta
     kpiText: z.string().optional(),
+    // Diagrama de arquitectura: etapas de datos → proceso → modelo → producto.
+    pipeline: z.array(z.object({ k: z.string(), t: z.string(), d: z.string() })).default([]),
+    stack: z.array(z.string()).default([]),
   }),
 });
 

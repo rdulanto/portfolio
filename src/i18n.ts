@@ -120,7 +120,7 @@ export const ui = {
       ],
     },
     back: '← Volver a proyectos',
-    code: 'Código', demo: 'Dashboard en vivo',
+    code: 'Código', demo: 'Dashboard en vivo', archTitle: 'Cómo está construido', stackTitle: 'Stack',
   },
   en: {
     htmlTitle: 'Ricardo Dulanto · AI, ML & Data Governance Consultant',
@@ -235,6 +235,6 @@ export const ui = {
       ],
     },
     back: '← Back to projects',
-    code: 'Code', demo: 'Live dashboard',
+    code: 'Code', demo: 'Live dashboard', archTitle: 'How it is built', stackTitle: 'Stack',
   },
 } as const;
