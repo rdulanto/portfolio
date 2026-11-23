@@ -9,12 +9,13 @@ const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: '
 ---
 <Base lang={lang} title={`${t.notesTitle} · Ricardo Dulanto`} description={t.notesLead} altHref={lang === 'es' ? '/en/blog/' : '/blog/'}>
   <section class="wrap list">
+    <p class="eyebrow">Blog</p>
     <h1>{t.notesTitle}</h1>
     <p class="lead">{t.notesLead}</p>
     {notes.length === 0 && <p>{lang === 'es' ? 'El primer artículo llega muy pronto.' : 'The first article is coming soon.'}</p>}
     {notes.map((n) => (
       <a class="item" href={notePath(lang, n.data.slug)}>
-        <time datetime={n.data.date.toISOString()}>{fmt.format(n.data.date)}</time>
+        <p class="mono"><span class="cat">{t.cats[n.data.category]}</span> · <time datetime={n.data.date.toISOString()}>{fmt.format(n.data.date)}</time></p>
         <h2>{n.data.title}{n.data.draft && <span class="tag">draft</span>}</h2>
         <p>{n.data.summary}</p>
       </a>
@@ -30,5 +31,6 @@ const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: '
   .item h2 { transition: color .15s ease; }
   @media (hover: hover) and (pointer: fine) { .item:hover h2 { color: var(--accent); } }
   .item p { color: var(--muted); margin: 0; }
-  time { font-size: .85rem; color: var(--muted); }
+  .mono { margin: 0; }
+  .cat { color: var(--accent); }
 </style>

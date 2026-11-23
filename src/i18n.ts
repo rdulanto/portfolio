@@ -69,6 +69,7 @@ export const ui = {
     contactLead: 'Busco posiciones de liderazgo en Datos e IA y proyectos de consultoría. La forma más rápida es una llamada de 20 minutos.',
     footer: 'Hecho con Astro. Sin cookies hasta que aceptes la analítica.',
     consent: { text: 'Uso Google Analytics para saber qué contenido es útil. ¿Aceptas cookies de analítica?', yes: 'Aceptar', no: 'Rechazar' },
+    cats: { guia: 'Guía práctica', investigacion: 'Investigación' },
     v2: {
       doors: [
         { k: 'Para empresas', t: 'Consultoría y cursos para llevar datos e IA a producción.', cta: 'Ver consultorías' },
@@ -187,6 +188,7 @@ export const ui = {
     contactLead: 'I’m open to Data & AI leadership roles and consulting projects. The fastest way is a 20-minute call.',
     footer: 'Built with Astro. No cookies unless you accept analytics.',
     consent: { text: 'I use Google Analytics to learn which content is useful. Accept analytics cookies?', yes: 'Accept', no: 'Decline' },
+    cats: { guia: 'Practical guide', investigacion: 'Research' },
     v2: {
       doors: [
         { k: 'For companies', t: 'Consulting and courses to take data and AI to production.', cta: 'See consulting' },
