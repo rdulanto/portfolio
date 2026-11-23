@@ -10,27 +10,38 @@ const home = lang === 'es' ? '/#proyectos' : '/en/#proyectos';
 ---
 <Base lang={lang} title={`${entry.data.title} · Ricardo Dulanto`} description={entry.data.summary} altHref={altHref} image={entry.data.image}>
   <article class="wrap article">
-    <a href={home} class="back">{t.back}</a>
-    <div>{entry.data.tags.map((g: string) => <span class="tag">{g}</span>)}</div>
+    <a href={home} class="back link">{t.back}</a>
+    <p class="meta">{entry.data.tags.join(' · ')}</p>
     <h1>{entry.data.question}</h1>
     <p class="summary">{entry.data.summary}</p>
+    {entry.data.kpi && (
+      <p class="kpi"><strong class="num">{entry.data.kpi}</strong><span>{entry.data.kpiText}</span></p>
+    )}
     <div class="links">
-      {entry.data.repo && <a class="btn btn-primary" href={entry.data.repo} rel="noopener" target="_blank">{t.code} →</a>}
-      {entry.data.demo && <a class="btn btn-ghost" href={entry.data.demo} rel="noopener" target="_blank">{t.demo}</a>}
+      {entry.data.demo && <a class="btn btn-primary" href={entry.data.demo} rel="noopener" target="_blank">{t.demo} <span class="arrow" aria-hidden="true">→</span></a>}
+      {entry.data.repo && <a class={`btn ${entry.data.demo ? 'btn-ghost' : 'btn-primary'}`} href={entry.data.repo} rel="noopener" target="_blank">{t.code}</a>}
     </div>
-    {entry.data.image && <img class="shot" src={entry.data.image} alt={entry.data.title} />}
+    {entry.data.image && <div class="shot"><img src={entry.data.image} alt={entry.data.title} /></div>}
     <div class="prose"><Content /></div>
   </article>
 </Base>
 <style>
-  .article { max-width: 780px; padding-top: 56px; padding-bottom: 96px; }
-  .back { font-size: .9rem; text-decoration: none; display: inline-block; margin-bottom: 24px; }
-  h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-top: 12px; }
-  .summary { font-size: 1.15rem; color: var(--muted); }
-  .links { display: flex; gap: 12px; margin: 24px 0 32px; flex-wrap: wrap; }
-  .shot { border-radius: var(--radius); border: 1px solid var(--line); margin-bottom: 40px; }
+  .article { max-width: 780px; padding-top: 40px; padding-bottom: 96px; }
+  .back { margin-bottom: 16px; }
+  .meta { margin: 0; color: var(--muted); font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  h1 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; letter-spacing: -0.03em; margin: 12px 0 16px; text-wrap: balance; }
+  .summary { font-size: 1.15rem; line-height: 1.55; color: var(--muted); margin: 0 0 24px; max-width: 65ch; }
+  .kpi { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin: 0; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .kpi strong { font-size: 1.75rem; font-weight: 650; letter-spacing: -0.02em; color: var(--accent); line-height: 1.15; }
+  .kpi span { color: var(--muted); font-size: .95rem; }
+  .links { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+  .shot { border-radius: var(--radius); border: 1px solid var(--line); overflow: hidden; margin-bottom: 48px; background: #fff; }
+  :global([data-theme="dark"]) .shot img { filter: brightness(.85); }
+  @media (prefers-color-scheme: dark) { :global(:root:not([data-theme="light"])) .shot img { filter: brightness(.85); } }
+  .prose { max-width: 65ch; }
   .prose :global(h2) { font-size: 1.35rem; margin-top: 2.2em; }
   .prose :global(table) { width: 100%; border-collapse: collapse; font-size: .95rem; margin: 16px 0; display: block; overflow-x: auto; }
-  .prose :global(th), .prose :global(td) { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .prose :global(th), .prose :global(td) { text-align: left; padding: 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .prose :global(th) { color: var(--muted); font-weight: 600; font-size: .85rem; }
+  @media (max-width: 720px) { .links .btn { width: 100%; } }
 </style>

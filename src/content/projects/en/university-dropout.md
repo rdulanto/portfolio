@@ -4,6 +4,8 @@ question: Who drops out of university in Peru, and why?
 summary: About 4% of university students drop out each year, three in four over money. Private universities have more than twice the rate of public ones, and household income does not explain the gap.
 tags: [Education, Logistic regression, Surveys]
 date: 2026-11-16
+kpi: "4.1%"
+kpiText: "of university students drop out each year; 3 in 4 over money"
 lang: en
 slug: university-dropout
 ref: desercion

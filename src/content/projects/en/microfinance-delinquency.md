@@ -4,6 +4,8 @@ question: Has microfinance delinquency returned to pre-pandemic levels?
 summary: Yes, and lower. Mibanco is at 3.82%, 1.6 points below 2019, and its gap with the banking system has halved. Compartamos is the exception.
 tags: [Microfinance, Time series, Data quality]
 date: 2026-11-12
+kpi: "2.3 → 1.0"
+kpiText: "points of delinquency gap with banks, 2019 to 2026"
 lang: en
 slug: microfinance-delinquency
 ref: morosidad

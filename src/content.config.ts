@@ -17,6 +17,8 @@ const projects = defineCollection({
     thumb: z.string().optional(),
     repo: z.string().url().optional(),
     demo: z.string().url().optional(),
+    kpi: z.string().optional(), // cifra principal que se destaca en la tarjeta
+    kpiText: z.string().optional(),
   }),
 });
 

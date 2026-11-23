@@ -4,6 +4,8 @@ question: ¿Quién deja la universidad en el Perú y por qué?
 summary: Cada año interrumpe el 4% de los universitarios, tres de cada cuatro por dinero. En las privadas la tasa es más del doble que en las públicas, y la diferencia no se explica por el ingreso del hogar.
 tags: [Educación, Regresión logística, Encuestas]
 date: 2026-11-16
+kpi: "4.1%"
+kpiText: "de universitarios abandona cada año; 3 de cada 4 por dinero"
 lang: es
 slug: desercion-universitaria
 ref: desercion

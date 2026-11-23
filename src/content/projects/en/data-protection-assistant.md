@@ -4,6 +4,8 @@ question: Can an AI search tool answer compliance questions while citing the exa
 summary: Yes, in most cases. On unseen questions, the hybrid system ranks the correct article first 60% of the time, vs. 27% for keyword search.
 tags: [Generative AI, Semantic search, Data governance]
 date: 2026-11-16
+kpi: "60% vs 27%"
+kpiText: "correct article ranked first, vs. keyword search"
 lang: en
 slug: data-protection-assistant
 ref: rag-ley-datos

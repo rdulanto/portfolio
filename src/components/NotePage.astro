@@ -12,22 +12,23 @@ const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: '
 ---
 <Base lang={lang} title={`${entry.data.title} · Ricardo Dulanto`} description={entry.data.summary} altHref={altHref}>
   <article class="wrap article">
-    <a href={notesIndex(lang)} class="back">{t.backNotes}</a>
-    <div>{entry.data.tags.map((g: string) => <span class="tag">{g}</span>)}</div>
+    <a href={notesIndex(lang)} class="back link">{t.backNotes}</a>
+    <p class="tags">{entry.data.tags.join(' · ')}</p>
     <h1>{entry.data.title}</h1>
     <p class="meta"><time datetime={entry.data.date.toISOString()}>{fmt.format(entry.data.date)}</time> · Ricardo Dulanto</p>
     <div class="prose"><Content /></div>
     <aside class="card cta">
       <p>{t.contactLead}</p>
-      <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
+      <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
       <a class="btn btn-ghost" href={SITE.linkedin} rel="noopener" target="_blank">LinkedIn</a>
     </aside>
   </article>
 </Base>
 <style>
-  .article { max-width: 720px; padding-top: 56px; padding-bottom: 96px; }
-  .back { font-size: .9rem; text-decoration: none; display: inline-block; margin-bottom: 24px; }
-  h1 { font-size: clamp(1.9rem, 4vw, 2.5rem); margin-top: 12px; }
+  .article { max-width: 720px; padding-top: 40px; padding-bottom: 96px; }
+  .back { margin-bottom: 16px; }
+  .tags { margin: 0; color: var(--muted); font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  h1 { font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -0.03em; margin: 12px 0 16px; text-wrap: balance; }
   .meta { color: var(--muted); font-size: .9rem; }
   .prose { font-size: 1.08rem; line-height: 1.75; }
   .prose :global(h2) { font-size: 1.35rem; margin-top: 2em; }

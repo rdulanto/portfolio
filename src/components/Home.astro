@@ -11,131 +11,158 @@ const projects = (await getCollection('projects', (p) => p.data.lang === lang))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
 const notes = (await publishedNotes(lang)).slice(0, 3);
+const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+const pad = (n: number) => String(n).padStart(2, '0');
+// Índice de secciones (01, 02…) según las que existan en la página.
+const order = ['services', 'projects', 'case', 'teach', ...(notes.length ? ['notes'] : []), 'creds'];
+const idx = (k: string) => pad(order.indexOf(k) + 1);
 ---
 <Base lang={lang}>
   <div class="wrap hero">
     <div class="hero-text">
-      <p class="eyebrow">{t.eyebrow}</p>
+      <p class="status"><span class="pulse" aria-hidden="true"></span>{t.available}</p>
       <h1>{t.headline}</h1>
       <p class="hero-lead">{t.lead}</p>
       <div class="ctas">
-        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
+        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href={SITE.linkedin} rel="noopener" target="_blank">{t.ctaSecondary}</a>
       </div>
     </div>
-    <picture class="photo">
-      <source srcset="/img/ricardo-dulanto.webp" type="image/webp" />
-      <img src="/img/ricardo-dulanto.jpg" alt="Ricardo Dulanto" width="640" height="640" fetchpriority="high" />
-    </picture>
   </div>
 
-  <div class="wrap proofs">
-    {t.proofs.map((p) => (
-      <div><strong>{p.k}</strong><span>{p.t}</span></div>
-    ))}
+  <div class="wrap">
+    <dl class="proofs">
+      {t.proofs.map((p) => (
+        <div><dt class="num">{p.k}</dt><dd>{p.t}</dd></div>
+      ))}
+    </dl>
   </div>
 
-  <section id="servicios">
+  <section id="servicios" class="band">
     <div class="wrap">
-      <h2>{t.servicesTitle}</h2>
-      <p class="lead">{t.servicesLead}</p>
-      <div class="grid services">
+      <header class="sec-head">
+        <div><p class="eyebrow"><span class="num">{idx('services')}</span> · {t.sec.services}</p><h2>{t.servicesTitle}</h2></div>
+        <p class="lead">{t.servicesLead}</p>
+      </header>
+      <ol class="services">
         {t.services.map((s, i) => (
-          <div class="card"><span class="num">0{i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></div>
+          <li><span class="s-num num">{pad(i + 1)}</span><h3>{s.t}</h3><p>{s.d}</p></li>
         ))}
-      </div>
+      </ol>
     </div>
   </section>
 
   <section id="proyectos">
     <div class="wrap">
-      <h2>{t.projectsTitle}</h2>
-      <p class="lead">{t.projectsLead}</p>
+      <header class="sec-head">
+        <div><p class="eyebrow"><span class="num">{idx('projects')}</span> · {t.sec.projects}</p><h2>{t.projectsTitle}</h2></div>
+        <p class="lead">{t.projectsLead}</p>
+      </header>
       <div class="grid projects">
         {projects.map((p) => (
           <a class="card project" href={`${projBase}${p.data.slug}/`}>
-            {(p.data.thumb ?? p.data.image) && <img src={p.data.thumb ?? p.data.image} alt="" loading="lazy" />}
-            <div>{p.data.tags.map((g) => <span class="tag">{g}</span>)}</div>
-            <h3>{p.data.question}</h3>
-            <p>{p.data.summary}</p>
-            <span class="more">{t.readProject} →</span>
+            {(p.data.thumb ?? p.data.image) && (
+              <div class="frame"><img src={p.data.thumb ?? p.data.image} alt="" loading="lazy" width="800" height="350" /></div>
+            )}
+            <div class="p-body">
+              <p class="meta">{p.data.tags.slice(0, 2).join(' · ')}</p>
+              <h3>{p.data.question}</h3>
+              {p.data.kpi ? (
+                <p class="kpi"><strong class="num">{p.data.kpi}</strong><span>{p.data.kpiText}</span></p>
+              ) : (
+                <p class="sum">{p.data.summary}</p>
+              )}
+              <span class="more">{t.readProject} <span class="arrow" aria-hidden="true">→</span></span>
+            </div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="caso">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="eyebrow"><span class="num">{idx('case')}</span> · {t.sec.case}</p><h2>{t.caseTitle}</h2></div>
+        <p class="lead case-role"><strong>{t.case.org}</strong><br />{t.case.role}</p>
+      </header>
+      <div class="case">
+        <div><p class="label">{t.case.labels.problem}</p><p>{t.case.problem}</p></div>
+        <div><p class="label">{t.case.labels.did}</p><ul>{t.case.did.map((d) => <li>{d}</li>)}</ul></div>
+        <div><p class="label">{t.case.labels.result}</p><p>{t.case.result}</p></div>
       </div>
     </div>
   </section>
 
   <section id="docencia">
     <div class="wrap">
-      <h2>{t.teachTitle}</h2>
-      <p class="lead">{t.teachLead}</p>
-      <div class="grid projects">
+      <header class="sec-head">
+        <div><p class="eyebrow"><span class="num">{idx('teach')}</span> · {t.sec.teach}</p><h2>{t.teachTitle}</h2></div>
+        <p class="lead">{t.teachLead}</p>
+      </header>
+      <ul class="rows">
         {t.labs.map((l) => (
-          <div class="card project lab">
-            <div><span class="tag">{l.tag}</span><span class="tag">Python · Colab</span></div>
+          <li class="lab">
+            <p class="meta">{l.tag} · Python · Colab</p>
             <h3>{l.t}</h3>
             <div class="lab-links">
-              <a href={NB.github + l.file} rel="noopener" target="_blank">{t.openNb} →</a>
-              <a href={NB.colab + l.file} rel="noopener" target="_blank">{t.openColab} →</a>
+              <a class="link" href={NB.github + l.file} rel="noopener" target="_blank">{t.openNb}</a>
+              <a class="link" href={NB.colab + l.file} rel="noopener" target="_blank">{t.openColab}</a>
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 
   {notes.length > 0 && (
   <section id="notas">
     <div class="wrap">
-      <h2>{t.notesTitle}</h2>
-      <p class="lead">{t.notesLead}</p>
-      <div class="grid projects">
+      <header class="sec-head">
+        <div><p class="eyebrow"><span class="num">{idx('notes')}</span> · {t.sec.notes}</p><h2>{t.notesTitle}</h2></div>
+        <p class="lead">{t.notesLead} <a href={notesIndex(lang)}>{t.allNotes}</a></p>
+      </header>
+      <ul class="rows">
         {notes.map((n) => (
-          <a class="card project" href={notePath(lang, n.data.slug)}>
-            <div>{n.data.tags.map((g) => <span class="tag">{g}</span>)}</div>
-            <h3>{n.data.title}</h3>
-            <p>{n.data.summary}</p>
-            <span class="more">{t.readNote} →</span>
-          </a>
+          <li>
+            <a class="note" href={notePath(lang, n.data.slug)}>
+              <time class="meta num" datetime={n.data.date.toISOString()}>{fmt.format(n.data.date)}</time>
+              <span class="n-text"><h3>{n.data.title}</h3><span class="sum">{n.data.summary}</span></span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
-      <p><a href={notesIndex(lang)}>{t.allNotes} →</a></p>
+      </ul>
     </div>
   </section>
   )}
 
-  <section id="caso">
-    <div class="wrap">
-      <h2>{t.caseTitle}</h2>
-      <div class="card case">
-        <div class="case-head"><h3>{t.case.org}</h3><span>{t.case.role}</span></div>
-        <div class="case-grid">
-          <div><p class="label">{t.case.labels.problem}</p><p>{t.case.problem}</p></div>
-          <div><p class="label">{t.case.labels.did}</p><ul>{t.case.did.map((d) => <li>{d}</li>)}</ul></div>
-          <div><p class="label">{t.case.labels.result}</p><p>{t.case.result}</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="credenciales">
-    <div class="wrap two">
-      <div>
-        <h2>{t.credTitle}</h2>
-        <ul class="creds">{t.creds.map((c) => <li>{c}</li>)}</ul>
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="eyebrow"><span class="num">{idx('creds')}</span> · {t.sec.creds}</p><h2>{t.credTitle}</h2></div>
+        <p class="lead">{t.credLead}</p>
+      </header>
+      <div class="creds">
+        {t.credGroups.map((g) => (
+          <div><p class="label">{g.k}</p><ul>{g.items.map((c) => <li>{c}</li>)}</ul></div>
+        ))}
       </div>
-      <div>
-        <h2>{t.experienceTitle}</h2>
-        <ul class="orgs">{t.experience.map((e) => <li>{e}</li>)}</ul>
+      <div class="track">
+        <p class="label">{t.experienceTitle}</p>
+        <ul>{t.experience.map((e) => <li>{e}</li>)}</ul>
       </div>
     </div>
   </section>
 
-  <section id="contacto" class="contact">
-    <div class="wrap">
-      <h2>{t.contactTitle}</h2>
-      <p class="lead">{t.contactLead}</p>
+  <section id="contacto" class="contact band">
+    <div class="wrap contact-in">
+      <div>
+        <h2>{t.contactTitle}</h2>
+        <p class="lead">{t.contactLead}</p>
+      </div>
       <div class="ctas">
-        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
+        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href={SITE.linkedin} rel="noopener" target="_blank">LinkedIn</a>
         <a class="btn btn-ghost" href={SITE.github} rel="noopener" target="_blank">GitHub</a>
       </div>
@@ -144,40 +171,117 @@ const notes = (await publishedNotes(lang)).slice(0, 3);
 </Base>
 
 <style>
-  .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: center; padding-top: 88px; padding-bottom: 56px; }
-  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700; letter-spacing: -0.035em; }
-  .hero-lead { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 0 32px; }
+  /* Hero */
+  .hero { padding-top: 112px; padding-bottom: 64px; }
+  .hero-text > * { animation: rise .6s var(--ease-out) both; }
+  .hero-text > :nth-child(2) { animation-delay: 60ms; }
+  .hero-text > :nth-child(3) { animation-delay: 120ms; }
+  .hero-text > :nth-child(4) { animation-delay: 180ms; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  .status { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 24px; padding: 4px 12px 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--muted); font-size: .82rem; font-weight: 500; line-height: 1.5; }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent); flex: none; }
+  h1 { font-size: clamp(2.5rem, 6.4vw, 4.5rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; max-width: 17ch; margin-bottom: 24px; text-wrap: balance; }
+  h1 :global(em) { font-style: normal; color: var(--accent); }
+  .hero-lead { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: var(--muted); max-width: 56ch; margin: 0 0 40px; }
   .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-  .photo img { border-radius: 24px; aspect-ratio: 1; object-fit: cover; width: 100%; max-width: 400px; margin-left: auto; }
-  .proofs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; padding-bottom: 88px; }
-  .proofs div { display: flex; flex-direction: column; gap: 4px; border-left: 2px solid var(--accent); padding-left: 16px; }
-  .proofs strong { font-size: 2rem; letter-spacing: -0.03em; color: var(--accent); }
-  .proofs span { color: var(--muted); font-size: .95rem; }
-  .services { grid-template-columns: repeat(2, 1fr); }
-  .services p { color: var(--muted); margin: 0; }
-  .num { color: var(--accent); font-weight: 700; font-size: .85rem; display: block; margin-bottom: 12px; }
-  .projects { grid-template-columns: repeat(3, 1fr); }
-  .lab-links { margin-top: auto; display: flex; gap: 18px; flex-wrap: wrap; font-weight: 600; font-size: .95rem; }
-  .lab-links a { text-decoration: none; }
-  .project { text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, transform .15s; }
-  a.project:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .project img { border-radius: 8px; border: 1px solid var(--line); margin-bottom: 8px; aspect-ratio: 16/7; object-fit: cover; object-position: left center; }
-  .project p { color: var(--muted); margin: 0; font-size: .95rem; }
-  .more { color: var(--accent); font-weight: 600; font-size: .9rem; margin-top: auto; padding-top: 8px; }
-  .case-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 20px; }
-  .case-head span { color: var(--muted); font-size: .9rem; }
-  .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-  .case-grid p, .case-grid li { color: var(--muted); font-size: .95rem; margin: 0; }
-  .case-grid ul { padding-left: 18px; margin: 0; display: grid; gap: 6px; }
-  .label { color: var(--accent) !important; font-weight: 600; font-size: .8rem !important; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px !important; }
-  .two { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; }
-  .creds { padding-left: 18px; margin: 0; display: grid; gap: 10px; color: var(--muted); }
-  .orgs { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-weight: 600; }
-  .contact { background: var(--sand); }
-  @media (max-width: 900px) {
-    .hero, .two { grid-template-columns: 1fr; gap: 32px; }
-    .photo img { max-width: 240px; margin: 0; order: -1; }
-    .projects, .case-grid { grid-template-columns: 1fr; }
+
+  /* Cifras */
+  .proofs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0 0 88px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+  .proofs div { padding: 24px 32px; }
+  .proofs div + div { border-left: 1px solid var(--line); }
+  .proofs dt { font-size: clamp(2rem, 3.6vw, 2.75rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; color: var(--accent); margin-bottom: 8px; }
+  .proofs dd { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.5; }
+
+  .sec-head .eyebrow .num { color: var(--muted); }
+  .meta { margin: 0; color: var(--muted); font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; line-height: 1.4; }
+  .label { margin: 0 0 12px; color: var(--accent); font-weight: 600; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; line-height: 1.2; }
+
+  /* Servicios: filas, no tarjetas iguales */
+  .services { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .services li { display: grid; grid-template-columns: 64px minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px 64px; padding: 40px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .s-num { color: var(--accent); font-weight: 600; font-size: .9rem; }
+  .services h3 { margin: 0; font-size: clamp(1.2rem, 2vw, 1.45rem); }
+  .services p { margin: 0; color: var(--muted); max-width: 52ch; }
+
+  /* Proyectos */
+  .projects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .project { padding: 0; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: transform .2s var(--ease-out), border-color .2s ease, box-shadow .2s ease; }
+  .frame { background: var(--sand); border-bottom: 1px solid var(--line); overflow: hidden; aspect-ratio: 16 / 9; }
+  .frame img { width: 100%; height: 100%; object-fit: cover; object-position: left top; transition: transform .3s var(--ease-out); }
+  :global([data-theme="dark"]) .frame img { filter: brightness(.82) contrast(1.05); }
+  @media (prefers-color-scheme: dark) { :global(:root:not([data-theme="light"])) .frame img { filter: brightness(.82) contrast(1.05); } }
+  .p-body { padding: 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .project h3 { margin: 0; font-size: 1.1rem; text-wrap: pretty; }
+  .kpi { margin: 4px 0 0; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 4px; }
+  .kpi strong { font-size: 1.6rem; font-weight: 650; letter-spacing: -0.02em; line-height: 1.15; color: var(--accent); }
+  .kpi span, .sum { color: var(--muted); font-size: .92rem; line-height: 1.5; }
+  .more { margin-top: auto; padding-top: 8px; color: var(--accent); font-weight: 600; font-size: .92rem; display: inline-flex; gap: 6px; min-height: 32px; align-items: center; }
+  .arrow { display: inline-block; transition: transform .18s var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) {
+    .project:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: var(--shadow-hover); }
+    .project:hover .frame img { transform: scale(1.03); }
+    .project:hover .arrow, .note:hover .arrow { transform: translateX(3px); }
   }
-  @media (max-width: 720px) { .proofs, .services { grid-template-columns: 1fr; } .hero { padding-top: 48px; } }
+
+  /* Caso */
+  .case-role strong { color: var(--ink); font-weight: 600; }
+  .case { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .case > div { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .case p:not(.label), .case li { color: var(--muted); font-size: .95rem; margin: 0; }
+  .case ul { padding-left: 18px; margin: 0; display: grid; gap: 8px; }
+
+  /* Filas (docencia, notas) */
+  .rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .rows > li { border-bottom: 1px solid var(--line); }
+  .lab { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; gap: 8px 32px; align-items: center; padding: 16px 0; }
+  .lab h3 { margin: 0; font-size: 1.02rem; font-weight: 550; }
+  .lab-links { display: flex; gap: 24px; }
+  .note { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; gap: 8px 32px; align-items: baseline; padding: 24px 0; color: inherit; text-decoration: none; }
+  .n-text h3 { margin: 0 0 4px; transition: color .15s ease; }
+  .note .arrow { color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) { .note:hover h3 { color: var(--accent); } }
+
+  /* Credenciales */
+  .creds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .creds > div { border-top: 1px solid var(--ink); padding-top: 16px; }
+  .creds ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; font-size: .95rem; line-height: 1.5; }
+  .track { margin-top: 48px; display: flex; gap: 12px 24px; align-items: center; flex-wrap: wrap; }
+  .track .label { margin: 0; color: var(--muted); }
+  .track ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .track li { font-size: .88rem; font-weight: 500; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); }
+
+  /* Contacto */
+  .contact h2 { color: var(--ink); }
+  .contact-in { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px 64px; align-items: center; }
+  .contact h2 { font-size: clamp(2rem, 4.4vw, 3rem); letter-spacing: -0.03em; margin-bottom: 16px; }
+  .contact .ctas { justify-content: flex-end; }
+
+  @media (max-width: 960px) {
+    .hero { padding-top: 72px; }
+    .projects { grid-template-columns: 1fr; }
+    .project { flex-direction: row; }
+    .frame { flex: 0 0 42%; aspect-ratio: auto; border-bottom: 0; border-right: 1px solid var(--line); }
+    .case { grid-template-columns: 1fr; }
+    .creds { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .services li { grid-template-columns: 48px minmax(0, 1fr); gap: 8px 16px; }
+    .services p { grid-column: 2; }
+    .lab, .note { grid-template-columns: minmax(0, 1fr) auto; }
+    .lab .meta, .note .meta { grid-column: 1 / -1; }
+    .lab-links { grid-column: 1 / -1; }
+    .contact-in { grid-template-columns: 1fr; }
+    .contact .ctas { justify-content: flex-start; }
+  }
+  @media (max-width: 720px) {
+    .hero { padding-top: 40px; padding-bottom: 48px; }
+    .status { border: 0; background: none; padding: 0; align-items: flex-start; }
+    .pulse { margin-top: 7px; }
+    .ctas .btn { width: 100%; }
+    .proofs { grid-template-columns: 1fr; margin-bottom: 64px; }
+    .proofs div { padding: 20px 24px; }
+    .proofs div + div { border-left: 0; border-top: 1px solid var(--line); }
+    .creds { grid-template-columns: 1fr; }
+    .project { flex-direction: column; }
+    .frame { flex: none; aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid var(--line); }
+    .services li { padding: 24px 0; }
+  }
 </style>

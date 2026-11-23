@@ -4,6 +4,8 @@ question: ¿Puede un buscador con IA responder preguntas de cumplimiento citando
 summary: Sí, en la mayoría de casos. Con preguntas que no vio, el sistema híbrido pone el artículo correcto en primer lugar el 60% de las veces, frente a 27% de una búsqueda por palabras.
 tags: [IA generativa, Búsqueda semántica, Gobierno de datos]
 date: 2026-11-16
+kpi: "60% vs 27%"
+kpiText: "artículo correcto en primer lugar, frente a búsqueda por palabras"
 lang: es
 slug: asistente-ley-datos-personales
 ref: rag-ley-datos

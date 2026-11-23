@@ -4,6 +4,8 @@ question: ¿La morosidad de las microfinanzas ya volvió a su nivel prepandemia?
 summary: Sí, y por debajo. Mibanco está en 3.82%, 1.6 puntos menos que en 2019, y la brecha con la banca se redujo a la mitad. Compartamos es la excepción.
 tags: [Microfinanzas, Series de tiempo, Calidad de datos]
 date: 2026-11-12
+kpi: "2.3 → 1.0"
+kpiText: "puntos de brecha de morosidad con la banca, de 2019 a 2026"
 lang: es
 slug: morosidad-microfinanzas
 ref: morosidad

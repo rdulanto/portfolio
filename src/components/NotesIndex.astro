@@ -22,11 +22,13 @@ const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: '
   </section>
 </Base>
 <style>
-  .list { max-width: 780px; padding-top: 56px; padding-bottom: 96px; }
-  h1 { font-size: clamp(2rem, 4vw, 2.6rem); }
+  .list { max-width: 780px; padding-top: 56px; padding-bottom: 96px; border-top: 0; }
+  h1 { font-size: clamp(2.25rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; }
+  .lead { margin-bottom: 40px; }
   .item { display: block; text-decoration: none; color: inherit; padding: 28px 0; border-bottom: 1px solid var(--line); }
   .item h2 { font-size: 1.3rem; margin: 6px 0 8px; }
-  .item:hover h2 { color: var(--accent); }
+  .item h2 { transition: color .15s ease; }
+  @media (hover: hover) and (pointer: fine) { .item:hover h2 { color: var(--accent); } }
   .item p { color: var(--muted); margin: 0; }
   time { font-size: .85rem; color: var(--muted); }
 </style>
