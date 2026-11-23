@@ -5,7 +5,7 @@ export async function getStaticPaths() {
   const all = await publishedNotes();
   return all.filter((n) => n.data.lang === 'es').map((entry) => {
     const pair = all.find((p) => p.data.lang === 'en' && p.data.ref === entry.data.ref);
-    return { params: { slug: entry.data.slug }, props: { entry, altHref: pair ? `/en/notes/${pair.data.slug}/` : '/en/notes/' } };
+    return { params: { slug: entry.data.slug }, props: { entry, altHref: pair ? `/en/blog/${pair.data.slug}/` : '/en/blog/' } };
   });
 }
 const { entry, altHref } = Astro.props;

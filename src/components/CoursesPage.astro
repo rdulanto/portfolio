@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import { BOOKING } from '../config';
+import { ui, NB, type Lang } from '../i18n';
+import { courses } from '../data/offer';
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const v = t.v2;
+---
+<Base lang={lang} title={`${v.courseTitle} · Ricardo Dulanto`} description={v.courseLead} altHref={lang === 'es' ? '/en/courses/' : '/cursos/'}>
+  <header class="wrap page-head">
+    <p class="eyebrow">{t.nav.courses}</p>
+    <h1>{v.courseTitle}</h1>
+    <p class="lead">{v.courseLead}</p>
+    <nav class="toc" aria-label={v.courseTitle}>
+      {courses[lang].map((c, i) => <a href={`#${c.id}`}><span class="mono">{String(i + 1).padStart(2, '0')}</span>{c.title}</a>)}
+      <a href="#a-medida"><span class="mono">+</span>{v.courseCustom}</a>
+    </nav>
+  </header>
+  <div class="wrap list">
+    {courses[lang].map((c, i) => (
+      <article id={c.id} class="course">
+        <div class="c-head">
+          <p class="mono"><span class="n">{String(i + 1).padStart(2, '0')}</span> · {c.hours} · {c.format}</p>
+          <h2>{c.title}</h2>
+        </div>
+        <dl class="c-grid">
+          <div><dt class="mono">{v.courseFor}</dt><dd>{c.who}</dd></div>
+          <div><dt class="mono">{v.courseOutcome}</dt><dd>{c.outcome}</dd></div>
+          <div class="mods"><dt class="mono">{v.courseModules}</dt><dd><ol>{c.modules.map((m) => <li>{m}</li>)}</ol></dd></div>
+        </dl>
+        {c.sample && <a class="link" href={c.sample} rel="noopener" target="_blank">{v.courseSample} <span aria-hidden="true">→</span></a>}
+      </article>
+    ))}
+  </div>
+  <section id="a-medida" class="band">
+    <div class="wrap">
+      <p class="eyebrow">+ · {v.custom.k}</p>
+      <h2>{v.courseCustom}</h2>
+      <p class="lead">{v.courseCustomD}</p>
+      <div class="ctas"><a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{v.custom.cta} <span aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap labs">
+      <h2>{t.teachTitle}</h2>
+      <p class="lead">{t.teachLead}</p>
+      <ul>
+        {t.labs.map((l) => (
+          <li>
+            <p class="mono">{l.tag} · Python · Colab</p>
+            <h3>{l.t}</h3>
+            <div class="lab-links">
+              <a class="link" href={NB.github + l.file} rel="noopener" target="_blank">{t.openNb}</a>
+              <a class="link" href={NB.colab + l.file} rel="noopener" target="_blank">{t.openColab}</a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+<style>
+  .toc { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0 32px; border-top: 1px solid var(--line); }
+  .toc a { display: grid; grid-template-columns: 32px 1fr; gap: 8px; align-items: baseline; padding: 12px 0; min-height: 44px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 500; }
+  .toc a .mono { color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) { .toc a:hover { color: var(--accent); } }
+  .list { padding-top: 24px; padding-bottom: 64px; }
+  .course { padding: 48px 0; border-bottom: 1px solid var(--line); scroll-margin-top: calc(var(--header) + 16px); display: grid; gap: 24px; }
+  .c-head .mono { margin: 0 0 12px; text-transform: none; }
+  .c-head .n { color: var(--accent); }
+  .c-head h2 { margin: 0; font-size: clamp(1.5rem, 2.8vw, 2rem); }
+  .c-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 40px; margin: 0; }
+  .c-grid dt { margin-bottom: 8px; }
+  .c-grid dd { margin: 0; color: var(--muted); }
+  .c-grid ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+  .course > .link { justify-self: start; }
+  #a-medida { scroll-margin-top: var(--header); }
+  #a-medida h2 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); margin-bottom: 16px; }
+  #a-medida .ctas { margin-top: 32px; }
+  .labs .lead { margin-bottom: 32px; }
+  .labs ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .labs li { display: grid; grid-template-columns: 220px minmax(0, 1fr) auto; gap: 8px 32px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .labs li .mono, .labs h3 { margin: 0; }
+  .labs h3 { font-size: 1.02rem; font-weight: 550; }
+  .lab-links { display: flex; gap: 24px; }
+  @media (max-width: 960px) {
+    .c-grid { grid-template-columns: 1fr; }
+    .labs li { grid-template-columns: 1fr; }
+  }
+</style>

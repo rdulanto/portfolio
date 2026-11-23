@@ -1,183 +1,226 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import ProjectCard from './ProjectCard.astro';
+import ServiceCard from './ServiceCard.astro';
 import { BOOKING, SITE } from '../config';
-import { ui, NB, type Lang } from '../i18n';
+import { ui, type Lang } from '../i18n';
+import { services, courses, paths } from '../data/offer';
 import { publishedNotes, notePath, notesIndex } from '../lib/notes';
 
 const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
+const v = t.v2;
 const projects = (await getCollection('projects', (p) => p.data.lang === lang))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const projBase = lang === 'es' ? '/proyectos/' : '/en/projects/';
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 const notes = (await publishedNotes(lang)).slice(0, 3);
+const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+const doorHref = [paths.consulting(lang), paths.roles(lang), paths.projects(lang)];
+const order = ['services', 'projects', 'courses', ...(notes.length ? ['notes'] : [])];
+const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
 ---
 <Base lang={lang}>
   <div class="wrap hero">
-    <div class="hero-text">
-      <p class="eyebrow">{t.eyebrow}</p>
-      <h1>{t.headline}</h1>
-      <p class="hero-lead">{t.lead}</p>
-      <div class="ctas">
-        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
-      </div>
+    <p class="status"><span class="pulse" aria-hidden="true"></span>{t.available}</p>
+    <h1>{t.headline}</h1>
+    <p class="hero-lead">{t.lead}</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn-ghost" href={paths.consulting(lang)}>{v.ctaServices}</a>
     </div>
-    <picture class="photo">
-      <source srcset="/img/ricardo-dulanto.webp" type="image/webp" />
-      <img src="/img/ricardo-dulanto.jpg" alt="Ricardo Dulanto" width="640" height="640" fetchpriority="high" />
-    </picture>
   </div>
 
-  <div class="wrap proofs">
-    {t.proofs.map((p) => (
-      <div><strong>{p.k}</strong><span>{p.t}</span></div>
-    ))}
+  <div class="wrap">
+    <nav class="doors" aria-label={lang === 'es' ? 'Por dónde empezar' : 'Where to start'}>
+      {v.doors.map((d, i) => (
+        <a href={doorHref[i]}>
+          <span class="mono">{String(i + 1).padStart(2, '0')} · {d.k}</span>
+          <strong>{d.t}</strong>
+          <span class="go">{d.cta} <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </nav>
+    <dl class="proofs">
+      {t.proofs.map((p) => (
+        <div><dt class="num hl">{p.k}</dt><dd>{p.t}</dd></div>
+      ))}
+    </dl>
+    <ul class="creds" aria-label={lang === 'es' ? 'Credenciales' : 'Credentials'}>
+      {t.credLine.map((c) => <li class="mono">{c}</li>)}
+    </ul>
   </div>
 
-  <section id="servicios">
+  <section id="servicios" class="band">
     <div class="wrap">
-      <h2>{t.servicesTitle}</h2>
-      <p class="lead">{t.servicesLead}</p>
-      <div class="grid services">
-        {t.services.map((s, i) => (
-          <div class="card"><span class="num">0{i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></div>
-        ))}
+      <header class="sec-head">
+        <div><p class="eyebrow">{idx('services')} · {t.nav.services}</p><h2>{v.servicesTitle}</h2></div>
+        <p class="lead">{v.servicesLead}</p>
+      </header>
+      <div class="grid svc-grid">
+        {services[lang].map((s) => <ServiceCard s={s} lang={lang} />)}
+      </div>
+      <div class="custom">
+        <div><p class="mono">{v.custom.k}</p><h3>{v.custom.t}</h3><p>{v.custom.d}</p></div>
+        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{v.custom.cta} <span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
 
   <section id="proyectos">
     <div class="wrap">
-      <h2>{t.projectsTitle}</h2>
-      <p class="lead">{t.projectsLead}</p>
+      <header class="sec-head">
+        <div><p class="eyebrow">{idx('projects')} · {t.nav.projects}</p><h2>{v.projectsTitle}</h2></div>
+        <p class="lead">{t.projectsLead} <a href={paths.projects(lang)}>{v.allProjects}</a></p>
+      </header>
       <div class="grid projects">
-        {projects.map((p) => (
-          <a class="card project" href={`${projBase}${p.data.slug}/`}>
-            {(p.data.thumb ?? p.data.image) && <img src={p.data.thumb ?? p.data.image} alt="" loading="lazy" />}
-            <div>{p.data.tags.map((g) => <span class="tag">{g}</span>)}</div>
-            <h3>{p.data.question}</h3>
-            <p>{p.data.summary}</p>
-            <span class="more">{t.readProject} →</span>
-          </a>
-        ))}
+        {projects.map((p) => <ProjectCard p={p} lang={lang} />)}
       </div>
     </div>
   </section>
 
-  <section id="docencia">
+  <section id="cursos" class="alt">
     <div class="wrap">
-      <h2>{t.teachTitle}</h2>
-      <p class="lead">{t.teachLead}</p>
-      <div class="grid projects">
-        {t.labs.map((l) => (
-          <div class="card project lab">
-            <div><span class="tag">{l.tag}</span><span class="tag">Python · Colab</span></div>
-            <h3>{l.t}</h3>
-            <div class="lab-links">
-              <a href={NB.github + l.file} rel="noopener" target="_blank">{t.openNb} →</a>
-              <a href={NB.colab + l.file} rel="noopener" target="_blank">{t.openColab} →</a>
-            </div>
-          </div>
+      <header class="sec-head">
+        <div><p class="eyebrow">{idx('courses')} · {t.nav.courses}</p><h2>{v.coursesTitle}</h2></div>
+        <p class="lead">{v.coursesLead} <a href={paths.courses(lang)}>{v.allCourses}</a></p>
+      </header>
+      <ul class="course-list">
+        {courses[lang].map((c, i) => (
+          <li>
+            <a href={`${paths.courses(lang)}#${c.id}`}>
+              <span class="mono">{String(i + 1).padStart(2, '0')}</span>
+              <strong>{c.title}</strong>
+              <span class="mono hrs">{c.hours}</span>
+            </a>
+          </li>
         ))}
-      </div>
+        <li class="custom-course">
+          <a href={`${paths.courses(lang)}#a-medida`}>
+            <span class="mono">+</span>
+            <strong>{v.courseCustom}</strong>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </section>
 
   {notes.length > 0 && (
-  <section id="notas">
+  <section id="blog">
     <div class="wrap">
-      <h2>{t.notesTitle}</h2>
-      <p class="lead">{t.notesLead}</p>
-      <div class="grid projects">
+      <header class="sec-head">
+        <div><p class="eyebrow">{idx('notes')} · Blog</p><h2>{v.blogTitle}</h2></div>
+        <p class="lead">{v.blogLead} <a href={notesIndex(lang)}>{t.allNotes}</a></p>
+      </header>
+      <ul class="rows">
         {notes.map((n) => (
-          <a class="card project" href={notePath(lang, n.data.slug)}>
-            <div>{n.data.tags.map((g) => <span class="tag">{g}</span>)}</div>
-            <h3>{n.data.title}</h3>
-            <p>{n.data.summary}</p>
-            <span class="more">{t.readNote} →</span>
-          </a>
+          <li>
+            <a class="note" href={notePath(lang, n.data.slug)}>
+              <time class="mono" datetime={n.data.date.toISOString()}>{fmt.format(n.data.date)}</time>
+              <span class="n-text"><h3>{n.data.title}</h3><span class="sum">{n.data.summary}</span></span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
-      <p><a href={notesIndex(lang)}>{t.allNotes} →</a></p>
+      </ul>
     </div>
   </section>
   )}
 
-  <section id="caso">
+  <section id="contacto" class="band close">
     <div class="wrap">
-      <h2>{t.caseTitle}</h2>
-      <div class="card case">
-        <div class="case-head"><h3>{t.case.org}</h3><span>{t.case.role}</span></div>
-        <div class="case-grid">
-          <div><p class="label">{t.case.labels.problem}</p><p>{t.case.problem}</p></div>
-          <div><p class="label">{t.case.labels.did}</p><ul>{t.case.did.map((d) => <li>{d}</li>)}</ul></div>
-          <div><p class="label">{t.case.labels.result}</p><p>{t.case.result}</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="credenciales">
-    <div class="wrap two">
-      <div>
-        <h2>{t.credTitle}</h2>
-        <ul class="creds">{t.creds.map((c) => <li>{c}</li>)}</ul>
-      </div>
-      <div>
-        <h2>{t.experienceTitle}</h2>
-        <ul class="orgs">{t.experience.map((e) => <li>{e}</li>)}</ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="contacto" class="contact">
-    <div class="wrap">
-      <h2>{t.contactTitle}</h2>
-      <p class="lead">{t.contactLead}</p>
+      <h2>{v.closeTitle}</h2>
+      <p class="lead">{v.closeLead}</p>
       <div class="ctas">
-        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} →</a>
+        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href={paths.roles(lang)}>{v.seeRoles}</a>
         <a class="btn btn-ghost" href={SITE.linkedin} rel="noopener" target="_blank">LinkedIn</a>
-        <a class="btn btn-ghost" href={SITE.github} rel="noopener" target="_blank">GitHub</a>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: center; padding-top: 88px; padding-bottom: 56px; }
-  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700; letter-spacing: -0.035em; }
-  .hero-lead { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 0 32px; }
-  .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-  .photo img { border-radius: 24px; aspect-ratio: 1; object-fit: cover; width: 100%; max-width: 400px; margin-left: auto; }
-  .proofs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; padding-bottom: 88px; }
-  .proofs div { display: flex; flex-direction: column; gap: 4px; border-left: 2px solid var(--accent); padding-left: 16px; }
-  .proofs strong { font-size: 2rem; letter-spacing: -0.03em; color: var(--accent); }
-  .proofs span { color: var(--muted); font-size: .95rem; }
-  .services { grid-template-columns: repeat(2, 1fr); }
-  .services p { color: var(--muted); margin: 0; }
-  .num { color: var(--accent); font-weight: 700; font-size: .85rem; display: block; margin-bottom: 12px; }
-  .projects { grid-template-columns: repeat(3, 1fr); }
-  .lab-links { margin-top: auto; display: flex; gap: 18px; flex-wrap: wrap; font-weight: 600; font-size: .95rem; }
-  .lab-links a { text-decoration: none; }
-  .project { text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, transform .15s; }
-  a.project:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .project img { border-radius: 8px; border: 1px solid var(--line); margin-bottom: 8px; aspect-ratio: 16/7; object-fit: cover; object-position: left center; }
-  .project p { color: var(--muted); margin: 0; font-size: .95rem; }
-  .more { color: var(--accent); font-weight: 600; font-size: .9rem; margin-top: auto; padding-top: 8px; }
-  .case-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 20px; }
-  .case-head span { color: var(--muted); font-size: .9rem; }
-  .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-  .case-grid p, .case-grid li { color: var(--muted); font-size: .95rem; margin: 0; }
-  .case-grid ul { padding-left: 18px; margin: 0; display: grid; gap: 6px; }
-  .label { color: var(--accent) !important; font-weight: 600; font-size: .8rem !important; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px !important; }
-  .two { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; }
-  .creds { padding-left: 18px; margin: 0; display: grid; gap: 10px; color: var(--muted); }
-  .orgs { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-weight: 600; }
-  .contact { background: var(--sand); }
-  @media (max-width: 900px) {
-    .hero, .two { grid-template-columns: 1fr; gap: 32px; }
-    .photo img { max-width: 240px; margin: 0; order: -1; }
-    .projects, .case-grid { grid-template-columns: 1fr; }
+  .hero { padding-top: 104px; padding-bottom: 56px; }
+  .hero > * { animation: rise .6s var(--ease-out) both; }
+  .hero > :nth-child(2) { animation-delay: 60ms; }
+  .hero > :nth-child(3) { animation-delay: 120ms; }
+  .hero > :nth-child(4) { animation-delay: 180ms; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  .status { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 24px; padding: 4px 12px 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--muted); font-size: .82rem; font-weight: 500; line-height: 1.5; }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--mark); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mark) 30%, transparent); flex: none; }
+  h1 { font-size: clamp(2.5rem, 6.4vw, 4.75rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; max-width: 17ch; margin-bottom: 24px; text-wrap: balance; }
+  .hero-lead { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: var(--muted); max-width: 56ch; margin: 0 0 40px; }
+  .arrow { display: inline-block; transition: transform .18s var(--ease-out); }
+
+  /* Tres puertas */
+  .doors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); overflow: hidden; }
+  .doors a { display: flex; flex-direction: column; gap: 12px; padding: 24px 28px; color: var(--ink); text-decoration: none; transition: background-color .15s ease; }
+  .doors a + a { border-left: 1px solid var(--line); }
+  .doors strong { font-size: 1.1rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; }
+  .doors .go { margin-top: auto; color: var(--link); font-weight: 600; font-size: .92rem; display: inline-flex; gap: 6px; }
+  @media (hover: hover) and (pointer: fine) { .doors a:hover { background: var(--sand); } .doors a:hover .arrow { transform: translateX(3px); } }
+
+  .proofs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 24px 0 0; }
+  .proofs div { padding: 8px 24px 8px 0; }
+  .proofs div + div { padding-left: 24px; border-left: 1px solid var(--line); }
+  .proofs dt { font-size: clamp(1.75rem, 2.6vw, 2.25rem); font-weight: 700; letter-spacing: -0.035em; white-space: nowrap; line-height: 1.05; margin-bottom: 12px; }
+  .proofs dd { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.5; max-width: 34ch; }
+
+  .creds { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 0; margin: 24px 0 88px; padding: 16px 0 0; border-top: 1px solid var(--line); }
+  .creds li { color: var(--ink); }
+  .creds li + li::before { content: '·'; margin: 0 12px; color: var(--muted); }
+  .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .custom { margin-top: 24px; display: flex; gap: 24px 48px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 32px; border: 1px dashed var(--line); border-radius: var(--radius); }
+  .custom h3 { margin: 8px 0; font-size: 1.25rem; }
+  .custom p:not(.mono) { margin: 0; color: var(--muted); max-width: 60ch; }
+  .custom .mono { margin: 0; color: var(--accent); }
+
+  .projects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .course-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; border-top: 1px solid var(--ink); }
+  .course-list li { border-bottom: 1px solid var(--line); }
+  .course-list a { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 16px; align-items: baseline; padding: 20px 0; color: var(--ink); text-decoration: none; }
+  .course-list strong { font-weight: 600; transition: color .15s ease; }
+  .custom-course .mono, .custom-course .arrow { color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) { .course-list a:hover strong { text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 4px; } }
+
+  .rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .rows > li { border-bottom: 1px solid var(--line); }
+  .note { display: grid; grid-template-columns: 160px minmax(0, 1fr) auto; gap: 8px 32px; align-items: baseline; padding: 24px 0; color: inherit; text-decoration: none; }
+  .n-text h3 { margin: 0 0 4px; transition: color .15s ease; }
+  .sum { color: var(--muted); font-size: .95rem; }
+  .note .arrow { color: var(--link); }
+  @media (hover: hover) and (pointer: fine) { .note:hover h3 { text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: 4px; } .note:hover .arrow { transform: translateX(3px); } }
+
+  .close h2 { font-size: clamp(2rem, 4.4vw, 3.25rem); letter-spacing: -0.03em; margin-bottom: 16px; max-width: 18ch; }
+  .close .lead { margin-bottom: 32px; }
+
+  @media (max-width: 1279px) {
+    .creds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 24px; }
+    .creds li + li::before { content: none; }
   }
-  @media (max-width: 720px) { .proofs, .services { grid-template-columns: 1fr; } .hero { padding-top: 48px; } }
+  @media (max-width: 960px) {
+    .hero { padding-top: 72px; }
+    .doors { grid-template-columns: 1fr; }
+    .proofs { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
+    .proofs div + div:nth-child(3) { padding-left: 0; border-left: 0; }
+    .creds { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .doors a + a { border-left: 0; border-top: 1px solid var(--line); }
+    .projects { grid-template-columns: 1fr 1fr; }
+    .course-list { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .hero { padding-top: 40px; padding-bottom: 40px; }
+    .status { border: 0; background: none; padding: 0; align-items: flex-start; }
+    .pulse { margin-top: 7px; }
+    .proofs { grid-template-columns: 1fr; row-gap: 0; }
+    .creds { margin-bottom: 64px; grid-template-columns: 1fr; }
+    .proofs div, .proofs div + div { padding: 16px 0; border-left: 0; border-top: 1px solid var(--line); }
+    .svc-grid, .projects { grid-template-columns: 1fr; }
+    .custom { padding: 24px; }
+    .custom .btn { width: 100%; }
+    .note { grid-template-columns: minmax(0, 1fr) auto; }
+    .note time { grid-column: 1 / -1; }
+  }
 </style>
