@@ -6,4 +6,5 @@ dist/
 !.env.example
 .DS_Store
 .qa/
+.qa-before/
 .claude/settings.local.json
