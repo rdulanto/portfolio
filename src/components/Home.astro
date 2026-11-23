@@ -196,13 +196,16 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
   .close h2 { font-size: clamp(2rem, 4.4vw, 3.25rem); letter-spacing: -0.03em; margin-bottom: 16px; max-width: 18ch; }
   .close .lead { margin-bottom: 32px; }
 
+  @media (max-width: 1279px) {
+    .creds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 24px; }
+    .creds li + li::before { content: none; }
+  }
   @media (max-width: 960px) {
     .hero { padding-top: 72px; }
     .doors { grid-template-columns: 1fr; }
     .proofs { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
     .proofs div + div:nth-child(3) { padding-left: 0; border-left: 0; }
-    .creds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; }
-    .creds li + li::before { content: none; }
+    .creds { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .doors a + a { border-left: 0; border-top: 1px solid var(--line); }
     .projects { grid-template-columns: 1fr 1fr; }
     .course-list { grid-template-columns: 1fr; }

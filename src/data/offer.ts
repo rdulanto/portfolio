@@ -251,16 +251,16 @@ export const courses: Record<Lang, Course[]> = {
 
 export const roles: Record<Lang, Role[]> = {
   es: [
-    { id: 'head', title: 'Head o Gerente de Datos e IA', what: 'Estrategia de datos e IA, portafolio de proyectos y un equipo que entrega modelos a producción.', proof: ['10 proyectos de ML coordinados con MLOps en Azure', 'Más de 14 años en banca y microfinanzas'] },
-    { id: 'eng', title: 'Gerente de Ingeniería de Datos', what: 'Plataforma de datos, ingesta, calidad y arquitectura en la nube.', proof: ['Ingesta reducida de 10 horas a 45 minutos', 'Azure Data Factory, Databricks y Synapse'] },
+    { id: 'head', title: 'Head o Gerente de Datos e IA', what: 'Estrategia de datos e IA, portafolio de proyectos y un equipo que entrega modelos a producción.', proof: ['10 modelos de ML llevados a producción con MLOps en Azure', 'Equipos de 5 a 10 especialistas y proveedores', 'Más de 14 años en banca y microfinanzas'] },
+    { id: 'eng', title: 'Gerente de Ingeniería de Datos', what: 'Plataforma de datos, ingesta, calidad y arquitectura en la nube.', proof: ['Ingesta diaria de +30 GB y +100 tablas, de 10 horas a 45 minutos', 'Azure Data Factory, Databricks y Synapse'] },
     { id: 'gov', title: 'Líder de Gobierno de Datos', what: 'Políticas, roles, calidad y cumplimiento de datos personales e IA.', proof: ['Validación automática de datos en MLOps', 'Asistente de IA sobre la Ley 29733 (proyecto público)'] },
-    { id: 'frac', title: 'Data & AI Lead por horas', what: 'Liderazgo senior de uno a tres días por semana, mientras la empresa crece o contrata.', proof: ['Experiencia como subgerente de ingeniería de datos', 'Docente universitario desde 2009'] },
+    { id: 'frac', title: 'Data & AI Lead por horas', what: 'Liderazgo senior de uno a tres días por semana, mientras la empresa crece o contrata.', proof: ['Experiencia como subgerente de ingeniería de datos', 'Diagnóstico y primer avance en ciclos de 2 a 3 semanas', '+10 procesos de información automatizados'] },
   ],
   en: [
-    { id: 'head', title: 'Head of Data & AI', what: 'Data and AI strategy, a project portfolio and a team that ships models to production.', proof: ['10 ML projects coordinated with MLOps on Azure', '14+ years in banking and microfinance'] },
-    { id: 'eng', title: 'Data Engineering Manager', what: 'Data platform, ingestion, quality and cloud architecture.', proof: ['Ingestion cut from 10 hours to 45 minutes', 'Azure Data Factory, Databricks and Synapse'] },
+    { id: 'head', title: 'Head of Data & AI', what: 'Data and AI strategy, a project portfolio and a team that ships models to production.', proof: ['10 ML models taken to production with MLOps on Azure', 'Teams of 5 to 10 specialists and vendors', '14+ years in banking and microfinance'] },
+    { id: 'eng', title: 'Data Engineering Manager', what: 'Data platform, ingestion, quality and cloud architecture.', proof: ['Daily ingestion of 30+ GB and 100+ tables, cut from 10 hours to 45 minutes', 'Azure Data Factory, Databricks and Synapse'] },
     { id: 'gov', title: 'Data Governance Lead', what: 'Policies, roles, quality and compliance for personal data and AI.', proof: ['Automated data validation in MLOps', 'AI assistant on Peru’s data protection law (public project)'] },
-    { id: 'frac', title: 'Fractional Data & AI Lead', what: 'Senior leadership one to three days a week, while the company grows or hires.', proof: ['Former deputy manager of data engineering', 'University lecturer since 2009'] },
+    { id: 'frac', title: 'Fractional Data & AI Lead', what: 'Senior leadership one to three days a week, while the company grows or hires.', proof: ['Former deputy manager of data engineering', 'Assessment and first deliverable in 2-to-3-week cycles', '10+ information processes automated'] },
   ],
 };
 
