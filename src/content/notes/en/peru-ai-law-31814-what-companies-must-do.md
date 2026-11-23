@@ -1,6 +1,6 @@
 ---
 title: "Peru’s AI law: what companies must do under the Law 31814 regulation"
-summary: "The regulation is in force and the deadline for finance, health and education passed in September 2026. Which systems are high risk, what is required and where to start."
+summary: "If your company has a model that approves or rejects loans, this law already applies to you. Here is what the regulation asks for, the deadlines and how I would start."
 date: 2026-11-23
 lang: en
 slug: peru-ai-law-31814-what-companies-must-do
@@ -9,33 +9,29 @@ tags: [Regulation, Responsible AI, Data governance]
 category: guia
 ---
 
-On 9 September 2025 Peru published [Supreme Decree 115-2025-PCM](https://busquedas.elperuano.pe/dispositivo/NL/2436426-1), the regulation of Law 31814, which promotes the use of artificial intelligence in the country. It took effect 90 business days later, in January 2026. For private companies in economy and finance, health, education, justice and security, the one-year compliance window ended in September 2026.
+When I led data engineering at a microfinance bank, we had ten machine learning models in production: risk, collections, sales, customers and FX. If I were in that seat today, the first thing I would ask is which of those models fall into the new regulation’s high-risk category. And the answer would not be "none".
 
-This guide summarizes what a company needs to know. It is not legal advice: for a specific case, read the official text with your legal team.
+That is why I am writing this. On 9 September 2025 Peru published [Supreme Decree 115-2025-PCM](https://busquedas.elperuano.pe/dispositivo/NL/2436426-1), the regulation of Law 31814 on artificial intelligence. It took effect in January 2026, and for companies in finance, health, education, justice and security the one-year compliance window already closed in September 2026.
 
-## Three risk categories
+One caveat first: I am not a lawyer and this is not legal advice. It is the reading of someone who has had models in production and would have to answer for them.
 
-The regulation sorts AI systems into three groups:
+## What matters most if you work in banking
 
-| Category | What it means | Examples |
-| --- | --- | --- |
-| Improper use | Prohibited, because it irreversibly harms fundamental rights | Manipulation that exploits vulnerabilities, mass surveillance without legal basis |
-| High risk | Allowed with conditions and controls | Credit scoring of individuals, hiring and evaluating workers, assessing students |
-| Acceptable risk | Everything else; the law still applies | An internal assistant for drafting documents |
+The regulation sorts AI systems into three groups. Improper uses are banned (manipulation, mass surveillance without legal basis). Acceptable-risk systems are almost everything else, like an assistant that drafts documents. In between sit high-risk systems, which are allowed with conditions.
 
-For banking and microfinance, the key line is this: **determining the credit assessment of individuals is high risk**, with an explicit exception for financial fraud detection. If your institution uses a scoring model to approve or decline loans, that model sits in the most demanding category.
+For those of us in banking and microfinance, the key line is this: **credit assessment of individuals is high risk**. Fraud detection is expressly excluded. So if you have a score that approves or rejects loans, that model is in the most demanding category. Hiring and student assessment are in there too, which hits close to home for me as a lecturer.
 
-## What a high-risk system requires
+## What each high-risk system needs
 
-According to summaries of the regulation by Peruvian firms ([Quimera](https://groupquimera.com.pe/guias/ley-inteligencia-artificial-peru-empresas), [AyP Digital](https://aypdigital.com/blog/ley-31814-inteligencia-artificial-peru-implicancias-empresas/)), the main obligations are:
+I read the regulation alongside the summaries by [Quimera](https://groupquimera.com.pe/guias/ley-inteligencia-artificial-peru-empresas) and [AyP Digital](https://aypdigital.com/blog/ley-31814-inteligencia-artificial-peru-implicancias-empresas/). In short, it asks for five things:
 
-1. **Prior transparency.** Tell users clearly and simply what the system is for and what kind of decisions it makes (art. 25).
-2. **Explanation.** If the decision affects rights, explain it in language the person understands.
-3. **System record.** Keep an up-to-date record of how it works, what data feeds it and its logic (art. 31).
-4. **Human oversight.** Trained people who can stop, correct or override the system’s decisions.
-5. **Personal data.** Comply with Law 29733 on personal data protection, which remains the enforcement route.
+- Tell people, beforehand and in plain words, what the system is for and what kind of decisions it makes (art. 25).
+- Be able to explain a decision when it affects their rights.
+- Keep an up-to-date record of how the system works, what data it uses and its logic (art. 31).
+- Have trained people who can stop it, correct it or override its decisions.
+- Comply with Law 29733 on personal data, which remains the route for sanctions.
 
-An impact assessment is voluntary for the private sector under article 32, but it is the simplest way to show you did the work. If you do one, keep the documentation for at least three years.
+Under article 32, an impact assessment is voluntary for the private sector. I would still do it. It is the simplest way to show you did the work. If you do, keep the documentation for at least three years.
 
 ## Deadlines
 
@@ -44,19 +40,24 @@ An impact assessment is voluntary for the private sector under article 32, but i
 | Health, education, justice, security, economy and finance | 1 year | September 2026 |
 | Transport, trade and labor | 2 years | September 2027 |
 | Production, agriculture, energy and mining | 3 years | September 2028 |
-| All other uses | 4 years | September 2029 |
+| Other uses | 4 years | September 2029 |
 
-Small businesses get 2 years and micro-businesses 3. Windows are counted from 10 September 2025.
+Small businesses get 2 years and micro businesses 3, counted from 10 September 2025.
 
-## Where to start: four steps
+## How I would start
 
-1. **Take inventory.** List every model and AI tool the company uses, including assistants employees use on their own. In my experience this step always finds more systems than expected.
-2. **Classify.** Flag the ones that make or support decisions on credit, employment or education. Those are your high-risk systems.
-3. **Document.** For each high-risk system, a one-page record with purpose, input data, logic, performance metrics and who oversees it.
-4. **Assign owners.** Every system needs a person accountable for it, with the authority to switch it off.
+First, the inventory. A list of every model and every AI tool in use across the company, including the chat tools people use on their own. There are almost always more than you think.
 
-None of these steps is new for a team with data governance in place. The difference is that they now have a date and a law behind them.
+Then I would flag which ones make or support decisions about credit, employment or education. Those are your high-risk systems.
 
-## What the regulation leaves open
+For each one I would write a simple record: what it is for, what data it uses, how it decides, how it performs and who oversees it. When we had a dedicated pipeline per model, with automated data validation, much of that information already existed. It just needed to be put in order.
 
-The regulation sets no fines of its own. The Digital Government Secretariat (SGTD) of the Prime Minister’s Office supervises and refers breaches to the competent authorities, such as the personal data protection authority or Indecopi. It also does not say how it fits with banking supervisor (SBS) rules on credit risk models. Until that is settled, the best defense is what any auditor asks for: know which models you have, what they do and who answers for them.
+Finally, I would give every system an owner: one person who answers for it and has the authority to switch it off.
+
+None of this is new for a team that already does data governance. The difference is that it now has a deadline and a law behind it.
+
+## What is still unclear
+
+The regulation has no fines of its own. The Digital Government Secretariat at the PCM supervises and refers cases to other authorities, such as the Personal Data Protection Authority or Indecopi. It also does not say how it will fit with what the banking regulator (SBS) already requires for credit risk models.
+
+Until that is settled, my advice is the same any auditor would give: know which models you have, what they do and who answers for them. If you want to talk about how this applies to your case, [book a call](https://calendar.app.google/LpuvurdHaRBMeS2X9).

@@ -1,6 +1,6 @@
 ---
 title: "AI agents in banking: where they fit and where they don’t"
-summary: "An agent does not just answer: it acts. In banking that changes the risk math. Where they make sense today, where not yet, and which controls to set before granting permissions."
+summary: "An AI agent does not just answer: it acts. After years with models in production in banking, here is where I would use agents today, where not yet and which controls I would set before granting permissions."
 date: 2026-11-23
 lang: en
 slug: ai-agents-in-banking
@@ -9,39 +9,38 @@ tags: [AI agents, Banking, Risk]
 category: investigacion
 ---
 
-An AI assistant answers questions. An AI agent goes one step further: it chooses which tools to use, queries systems, drafts, records and, if allowed, executes. In banking that difference changes everything, because a mistake is no longer a bad answer on screen: it can be a misrouted payment or a loan declined with no explanation.
+An AI assistant answers questions. An agent goes further: it decides which tools to use, queries systems, drafts, records and, if you let it, executes. In banking that difference matters a lot. A mistake is no longer a bad answer on screen; it can be a misrouted payment or a loan rejected without explanation.
 
-The interest is real. According to [Deloitte](https://www.deloitte.com/us/en/insights/industry/financial-services/agentic-ai-risks-banking.html) (March 2026), one in three financial institutions is carving out budget for agentic AI. The same report identifies more than 350 risks tied to autonomous behavior in MIT’s AI risk database.
+I look at this from having had ten models in production at a microfinance bank. None of them acted on its own: each one went through automated validations, and its output was used by a person or by a process with controls. With agents, that safety net has to be designed from day one.
 
-## Where they fit: tasks that prepare, not decide
+The interest is real. According to [Deloitte](https://www.deloitte.com/us/en/insights/industry/financial-services/agentic-ai-risks-banking.html) (March 2026), one in three financial institutions is already setting aside budget for agentic AI. The same report counts more than 350 risks tied to autonomous behavior in MIT’s AI risk repository.
 
-Agents work best when their work ends with a person who reviews it:
+## Where I would use them today
 
-| Use case | What the agent does | Who decides |
-| --- | --- | --- |
-| Loan file preparation | Gathers documents, checks completeness and summarizes | The analyst |
-| Anti-money-laundering alerts | Pulls transactions, profile and past cases for each alert | The compliance officer |
-| Complaint handling | Classifies, retrieves history and drafts a proposed reply | The service agent |
-| Regulatory reporting | Cross-checks rules against data and flags gaps | The reporting team |
-| Internal development | Generates code, tests and documentation | The IT team |
+In tasks that prepare work for a person who reviews and decides. For example:
 
-Even financial supervisors are taking this route. An [S&P Global report](https://www.spglobal.com/en/research-insights/special-reports/closing-the-gap-financial-supervisors-ai-adoption) (May 2026) describes supervisors’ agents as staying mostly in reviewer roles rather than autonomous decision-making.
+- Building credit files: gathering documents, checking they are complete and summarizing them for the analyst.
+- Preparing anti-money-laundering alerts: pulling transactions, profile and past cases for the compliance officer.
+- Handling complaints: classifying them, finding the history and proposing a reply the agent reviews.
+- Regulatory reporting: matching the rule against the data and flagging gaps.
+- Internal development: generating code, tests and documentation for the IT team.
 
-## Where not yet: decisions that affect customers or move money
+In every case, a person still makes the call. Even financial supervisors are taking that route: an [S&P Global report](https://www.spglobal.com/en/research-insights/special-reports/closing-the-gap-financial-supervisors-ai-adoption) (May 2026) describes their agents staying mostly in review roles rather than deciding alone.
 
-- **Approving or declining loans.** In Peru, the [Law 31814 regulation](/en/blog/peru-ai-law-31814-what-companies-must-do/) classifies credit scoring of individuals as high risk, with mandatory transparency, explanation and human oversight. An agent deciding alone does not fit. Deloitte gives the example of an agent declining applicants without a clear rationale, which may breach fair-lending rules.
-- **Moving money without limits.** A payment-routing agent could get around limits and misallocate funds, the same report warns.
-- **Talking to customers with broad data access.** A service agent with misconfigured permissions can expose personal data from another case.
-- **Unsupervised chains of agents.** When one agent’s error becomes another’s input, the error compounds. Deloitte describes reconciliation and settlement agents re-triggering each other endlessly.
+## Where not yet
 
-## Five controls before granting permissions
+**Approving or rejecting loans.** In Peru, the [Law 31814 regulation](/en/blog/peru-ai-law-31814-what-companies-must-do/) classifies credit assessment of individuals as high risk, with mandatory transparency, explanation and human oversight. An agent deciding on its own does not fit. Deloitte mentions exactly that case: an agent rejecting applications without a clear reason.
 
-1. **Inventory and owner.** Every agent registered, with its purpose, risk level and an accountable person.
-2. **Least, expiring permissions.** Only the tools and data it needs, for a limited time.
-3. **Log every action.** Which agent did what, with which tool and why. Without it, no audit is possible.
-4. **Escalation thresholds.** Amounts, customer types or confidence levels at which the agent stops and hands over to a person.
-5. **Continuous evaluation.** Test cases before every change and monitoring in production, just as with a risk model.
+**Moving money without limits.** A payments agent could skip caps and misallocate funds, according to the same report.
+
+**Talking to customers with broad data access.** If permissions are misconfigured, it can show one customer another customer’s data. When I ran CRM and customer service across 7 channels, controlling what each person could see was already a serious matter with people. With an agent it matters even more.
+
+**Chains of unsupervised agents.** When one agent’s error is the next one’s input, the error multiplies. Deloitte describes reconciliation and settlement agents that keep triggering each other endlessly.
+
+## The controls I would set before granting permissions
+
+Every agent registered, with its purpose, risk level and a responsible person. Minimum permissions with an expiry date: only the tools and data it needs. A log of every action, with which tool and why, because without it there is no audit. Clear thresholds (amounts, customer types, confidence levels) at which the agent stops and hands the case to a person. And tests before every change, plus monitoring in production, just as we did with risk models.
 
 ## My recommendation
 
-Start with an agent that prepares work for a team that already exists, measure how much time it saves and how often the person corrects its output, and widen permissions only on that evidence. In banking, an agent that saves a team real hours with zero incidents is worth more than one that promises full autonomy and that nobody dares switch on.
+Start with an agent that prepares work for a team that already exists. Measure how much time it saves and how often the person has to correct it. Expand permissions only with that evidence in hand. In banking, an agent that saves real hours without incidents is worth far more than one that promises full autonomy and nobody dares to switch on.

@@ -1,6 +1,6 @@
 ---
 title: "Agentes de IA en banca: dónde sí y dónde no"
-summary: "Un agente no solo responde: actúa. En banca eso cambia el cálculo de riesgo. Dónde tienen sentido hoy, dónde todavía no y qué controles poner antes de darle permisos."
+summary: "Un agente de IA no solo responde: actúa. Después de años con modelos en producción en banca, te cuento dónde los usaría hoy, dónde todavía no y qué controles pondría antes de darles permisos."
 date: 2026-11-23
 lang: es
 slug: agentes-de-ia-en-banca
@@ -9,39 +9,38 @@ tags: [Agentes de IA, Banca, Riesgo]
 category: investigacion
 ---
 
-Un asistente con IA responde preguntas. Un agente de IA va un paso más allá: decide qué herramientas usar, consulta sistemas, redacta, registra y, si se lo permiten, ejecuta. En banca esa diferencia lo cambia todo, porque el error ya no es una mala respuesta en pantalla: puede ser un pago mal enrutado o un crédito rechazado sin explicación.
+Un asistente con IA responde preguntas. Un agente va más allá: decide qué herramientas usar, consulta sistemas, redacta, registra y, si lo dejas, ejecuta. En banca esa diferencia pesa mucho. El error ya no es una mala respuesta en pantalla, puede ser un pago mal enrutado o un crédito rechazado sin explicación.
 
-El interés es real. Según [Deloitte](https://www.deloitte.com/us/en/insights/industry/financial-services/agentic-ai-risks-banking.html) (marzo de 2026), una de cada tres instituciones financieras está separando presupuesto para IA agéntica. Al mismo tiempo, el mismo informe identifica más de 350 riesgos asociados a comportamiento autónomo en la base de riesgos de IA del MIT.
+Lo veo desde la experiencia de haber tenido diez modelos en producción en un banco de microfinanzas. Ninguno actuaba solo: cada uno pasaba por validaciones automáticas y su resultado lo usaba una persona o un proceso con controles. Con los agentes, esa red de seguridad hay que diseñarla desde el inicio.
 
-## Dónde sí: tareas que preparan, no que deciden
+El interés es real. Según [Deloitte](https://www.deloitte.com/us/en/insights/industry/financial-services/agentic-ai-risks-banking.html) (marzo de 2026), una de cada tres instituciones financieras ya está separando presupuesto para IA agéntica. El mismo informe cuenta más de 350 riesgos asociados a comportamiento autónomo en la base de riesgos de IA del MIT.
 
-Los agentes funcionan mejor cuando su trabajo termina en una persona que revisa:
+## Dónde sí los usaría hoy
 
-| Caso | Qué hace el agente | Quién decide |
-| --- | --- | --- |
-| Preparación de expedientes de crédito | Junta documentos, verifica que estén completos y resume la información | El analista |
-| Alertas de lavado de activos | Reúne movimientos, perfil y casos previos para cada alerta | El oficial de cumplimiento |
-| Atención de reclamos | Clasifica, busca el historial y redacta una respuesta propuesta | El ejecutivo de atención |
-| Reportes regulatorios | Cruza la norma con los datos y señala diferencias | El equipo de reportes |
-| Desarrollo interno | Genera código, pruebas y documentación | El equipo de TI |
+En tareas que preparan trabajo para una persona que revisa y decide. Por ejemplo:
 
-Incluso los supervisores financieros van por este camino. Un [informe de S&P Global](https://www.spglobal.com/en/research-insights/special-reports/closing-the-gap-financial-supervisors-ai-adoption) (mayo de 2026) describe que los agentes que usan los supervisores se mantienen mayormente en roles de revisión y no de decisión autónoma.
+- Armar expedientes de crédito: juntar documentos, ver que estén completos y resumirlos para el analista.
+- Preparar alertas de lavado de activos: reunir movimientos, perfil y casos previos para el oficial de cumplimiento.
+- Atender reclamos: clasificarlos, buscar el historial y proponer una respuesta que el ejecutivo revisa.
+- Reportes regulatorios: cruzar la norma con los datos y señalar diferencias.
+- Desarrollo interno: generar código, pruebas y documentación para el equipo de TI.
 
-## Dónde no, todavía: decisiones que afectan a clientes o mueven dinero
+En todos, quien decide sigue siendo una persona. Incluso los supervisores financieros van por ese camino: un [informe de S&P Global](https://www.spglobal.com/en/research-insights/special-reports/closing-the-gap-financial-supervisors-ai-adoption) (mayo de 2026) describe que sus agentes se quedan mayormente en tareas de revisión y no deciden solos.
 
-- **Aprobar o rechazar créditos.** En el Perú, el [reglamento de la Ley 31814](/blog/ley-31814-que-debe-hacer-una-empresa/) clasifica la evaluación crediticia de personas como riesgo alto, con transparencia, explicación y supervisión humana obligatorias. Un agente que decide solo no encaja ahí. Deloitte da el ejemplo de un agente que rechaza solicitudes sin una razón clara, lo que puede violar normas de crédito justo.
-- **Mover dinero sin límite.** Un agente de enrutamiento de pagos podría saltarse límites y asignar mal fondos, según el mismo informe.
-- **Hablar con clientes con acceso amplio a datos.** Un agente de atención con permisos mal configurados puede mostrar datos personales de otro caso.
-- **Cadenas de agentes sin supervisión.** Cuando el error de un agente es la entrada de otro, el error se multiplica. Deloitte describe agentes de conciliación y liquidación que se reactivan mutuamente sin fin.
+## Dónde todavía no
 
-## Cinco controles antes de dar permisos
+**Aprobar o rechazar créditos.** En el Perú, el [reglamento de la Ley 31814](/blog/ley-31814-que-debe-hacer-una-empresa/) pone la evaluación crediticia de personas como riesgo alto, con transparencia, explicación y supervisión humana obligatorias. Un agente que decide solo no encaja ahí. Deloitte menciona justamente el caso de un agente que rechaza solicitudes sin una razón clara.
 
-1. **Inventario y dueño.** Cada agente registrado, con su propósito, nivel de riesgo y una persona responsable.
-2. **Permisos mínimos y que vencen.** Solo las herramientas y datos que necesita, por tiempo limitado.
-3. **Registro de cada acción.** Qué agente hizo qué, con qué herramienta y por qué. Sin eso no hay auditoría posible.
-4. **Umbrales de escalamiento.** Montos, tipos de cliente o niveles de confianza a partir de los cuales el agente se detiene y pasa a una persona.
-5. **Evaluación continua.** Casos de prueba antes de cada cambio y monitoreo en producción, igual que con un modelo de riesgo.
+**Mover dinero sin límites.** Un agente de pagos podría saltarse topes y asignar mal fondos, según el mismo informe.
+
+**Hablar con clientes teniendo acceso amplio a datos.** Si los permisos están mal configurados, puede mostrarle a un cliente datos de otro. Cuando gestioné CRM y atención en 7 canales, el cuidado de qué ve cada persona ya era un tema serio con personas. Con un agente lo es más.
+
+**Cadenas de agentes sin supervisión.** Cuando el error de uno es la entrada del siguiente, el error se multiplica. Deloitte describe agentes de conciliación y liquidación que se reactivan entre sí sin fin.
+
+## Los controles que pondría antes de darles permisos
+
+Cada agente registrado, con su propósito, su nivel de riesgo y una persona responsable. Permisos mínimos y con fecha de vencimiento: solo las herramientas y los datos que necesita. Un registro de cada acción, con qué herramienta y por qué, porque sin eso no hay auditoría. Umbrales claros (montos, tipos de cliente, nivel de confianza) a partir de los cuales el agente se detiene y le pasa el caso a una persona. Y pruebas antes de cada cambio, más monitoreo en producción, igual que hacíamos con los modelos de riesgo.
 
 ## Mi recomendación
 
-Empieza por un agente que prepare trabajo para un equipo que ya existe, mide cuánto tiempo ahorra y cuántas veces la persona corrige su resultado, y amplía permisos solo con esa evidencia. En banca, un agente que ahorra horas reales a un equipo sin incidentes vale más que uno que promete autonomía total y nadie se atreve a encender.
+Empieza con un agente que le prepare trabajo a un equipo que ya existe. Mide cuánto tiempo ahorra y cuántas veces la persona tiene que corregirlo. Y amplía permisos solo con esa evidencia en la mano. En banca, un agente que ahorra horas reales sin incidentes vale mucho más que uno que promete autonomía total y que nadie se atreve a encender.
