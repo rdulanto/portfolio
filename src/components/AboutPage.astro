@@ -7,7 +7,7 @@ const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
 const v = t.v2;
 ---
-<Base lang={lang} title={`${v.aboutTitle} · Ricardo Dulanto`} description={v.aboutLead} altHref={lang === 'es' ? '/en/about/' : '/sobre-mi/'} image="/img/ricardo-dulanto-bn.jpg">
+<Base lang={lang} title={`${v.aboutTitle} · Ricardo Dulanto`} description={v.aboutLead} altHref={lang === 'es' ? '/en/about/' : '/sobre-mi/'} image="/img/ricardo-dulanto-sobre-mi.jpg">
   <header class="wrap page-head head-grid">
     <div>
       <p class="eyebrow">{t.nav.about}</p>
@@ -20,8 +20,8 @@ const v = t.v2;
       </div>
     </div>
     <picture class="portrait">
-      <source srcset="/img/ricardo-dulanto-bn.webp" type="image/webp" />
-      <img src="/img/ricardo-dulanto-bn.jpg" alt="Ricardo Dulanto" width="800" height="1000" />
+      <source srcset="/img/ricardo-dulanto-sobre-mi.webp" type="image/webp" />
+      <img src="/img/ricardo-dulanto-sobre-mi.jpg" alt="Ricardo Dulanto" width="800" height="1000" />
     </picture>
   </header>
 
