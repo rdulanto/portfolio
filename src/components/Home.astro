@@ -21,13 +21,19 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
 ---
 <Base lang={lang}>
   <div class="wrap hero">
-    <p class="status"><span class="pulse" aria-hidden="true"></span>{t.available}</p>
-    <h1>{t.headline}</h1>
-    <p class="hero-lead">{t.lead}</p>
-    <div class="ctas">
-      <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
-      <a class="btn btn-ghost" href={paths.consulting(lang)}>{v.ctaServices}</a>
+    <div class="hero-text">
+      <p class="status"><span class="pulse" aria-hidden="true"></span>{t.available}</p>
+      <h1>{t.headline}</h1>
+      <p class="hero-lead">{t.lead}</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href={paths.consulting(lang)}>{v.ctaServices}</a>
+      </div>
     </div>
+    <picture class="hero-photo">
+      <source srcset="/img/ricardo-dulanto-inicio.webp" type="image/webp" />
+      <img src="/img/ricardo-dulanto-inicio.jpg" alt={lang === 'es' ? 'Ricardo Dulanto trabajando con su laptop' : 'Ricardo Dulanto working on his laptop'} width="800" height="1000" fetchpriority="high" />
+    </picture>
   </div>
 
   <div class="wrap">
@@ -142,10 +148,13 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
 
 <style>
   .hero { padding-top: 104px; padding-bottom: 56px; }
-  .hero > * { animation: rise .6s var(--ease-out) both; }
-  .hero > :nth-child(2) { animation-delay: 60ms; }
-  .hero > :nth-child(3) { animation-delay: 120ms; }
-  .hero > :nth-child(4) { animation-delay: 180ms; }
+  .hero { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 64px; align-items: center; }
+  .hero-text > *, .hero-photo { animation: rise .6s var(--ease-out) both; }
+  .hero-text > :nth-child(2) { animation-delay: 60ms; }
+  .hero-text > :nth-child(3) { animation-delay: 120ms; }
+  .hero-text > :nth-child(4) { animation-delay: 180ms; }
+  .hero-photo { animation-delay: 240ms; }
+  .hero-photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
   .status { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 24px; padding: 4px 12px 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--muted); font-size: .82rem; font-weight: 500; line-height: 1.5; }
   .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--mark); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mark) 30%, transparent); flex: none; }
@@ -197,11 +206,14 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
   .close .lead { margin-bottom: 32px; }
 
   @media (max-width: 1279px) {
+    .hero { grid-template-columns: minmax(0, 1fr) 280px; gap: 48px; }
     .creds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 24px; }
     .creds li + li::before { content: none; }
   }
   @media (max-width: 960px) {
-    .hero { padding-top: 72px; }
+    .hero { padding-top: 72px; grid-template-columns: 1fr; gap: 32px; }
+    .hero-photo { order: -1; }
+    .hero-photo img { max-width: 200px; }
     .doors { grid-template-columns: 1fr; }
     .proofs { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
     .proofs div + div:nth-child(3) { padding-left: 0; border-left: 0; }
@@ -211,7 +223,8 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
     .course-list { grid-template-columns: 1fr; }
   }
   @media (max-width: 720px) {
-    .hero { padding-top: 40px; padding-bottom: 40px; }
+    .hero { padding-top: 40px; padding-bottom: 40px; gap: 24px; }
+    .hero-photo img { max-width: 160px; }
     .status { border: 0; background: none; padding: 0; align-items: flex-start; }
     .pulse { margin-top: 7px; }
     .proofs { grid-template-columns: 1fr; row-gap: 0; }
