@@ -15,7 +15,7 @@ export const ui = {
     kpiLabel: 'Resultado clave',
     switchLang: 'EN', switchHref: '/en/',
     eyebrow: 'Consultor en IA y ML · Data & AI Lead',
-    headline: 'Convierto datos en decisiones con IA que sí llega a producción.',
+    headline: 'Ayudo a empresas a usar IA con datos en los que pueden confiar.',
     lead: 'Consultor y líder en IA, Machine Learning y Gobierno de Datos, con más de 14 años en banca y microfinanzas.',
     ctaPrimary: 'Agenda una llamada de 20 min',
     proofs: [
@@ -136,7 +136,7 @@ export const ui = {
     kpiLabel: 'Key result',
     switchLang: 'ES', switchHref: '/',
     eyebrow: 'AI & ML Consultant · Data & AI Lead',
-    headline: 'I turn data into decisions with AI that actually reaches production.',
+    headline: 'I help companies use AI with data they can trust.',
     lead: 'AI, Machine Learning and Data Governance consultant and leader, with 14+ years in banking and microfinance.',
     ctaPrimary: 'Book a 20-min call',
     proofs: [
