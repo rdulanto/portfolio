@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
 import Analytics from '../components/Analytics.astro';
+import Chat from '../components/Chat.astro';
 import { ui, type Lang } from '../i18n';
 import { SITE, BOOKING } from '../config';
 import { paths } from '../data/offer';
@@ -92,6 +93,7 @@ const here = Astro.url.pathname;
       <p class="legal">© {new Date().getFullYear()} Ricardo Dulanto · {t.footer}</p>
     </div>
   </footer>
+  <Chat lang={lang} />
   <Analytics lang={lang} />
   <script>
     const root = document.documentElement;
