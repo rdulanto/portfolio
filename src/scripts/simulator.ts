@@ -323,3 +323,65 @@ export function initMaturity(root: HTMLElement) {
   });
   intro();
 }
+
+/* ------------------------------------------------------------------ */
+/* Encaje con la vacante (reclutadores)                                */
+/* ------------------------------------------------------------------ */
+
+export function initFit(root: HTMLElement) {
+  const D: Any = JSON.parse(root.querySelector('script[type="application/json"]')!.textContent!);
+  const out = root.querySelector<HTMLElement>('.fit-result')!;
+  const all: Any[] = D.groups.flatMap((g: Any) => g.items);
+  const U = D.ui;
+  let tracked = false;
+
+  function render() {
+    const sel = all.filter((r) => root.querySelector<HTMLInputElement>(`input[value="${r.id}"]`)?.checked);
+    if (!sel.length) {
+      out.innerHTML = `<p class="fit-empty">${esc(U.empty)}</p>`;
+      out.dataset.summary = '';
+      return;
+    }
+    const pts = sel.reduce((s, r) => s + (r.fit === 'full' ? 1 : r.fit === 'partial' ? 0.5 : 0), 0);
+    const pct = Math.round((pts / sel.length) * 100);
+    const verdict = U.verdict.find((v: Any) => pct >= v.min).t;
+    const order = { full: 0, partial: 1, no: 2 } as Any;
+    const rows = [...sel].sort((a, b) => order[a.fit] - order[b.fit]);
+    out.innerHTML = `
+      <div class="fit-score">
+        <p class="big num"><span>${pct}%</span> <small>${esc(U.match)}</small></p>
+        <div class="meter" aria-hidden="true"><span style="transform:scaleX(${(pct / 100).toFixed(3)})"></span></div>
+        <p class="verdict">${esc(verdict)}</p>
+        <p class="mono">${sel.length} ${esc(U.selected)}</p>
+      </div>
+      <ul class="fit-list">
+        ${rows.map((r) => `<li class="${r.fit}"><span class="badge mono">${esc(U[r.fit])}</span><div><strong>${esc(r.t)}</strong><p>${esc(r.proof)}</p></div></li>`).join('')}
+      </ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href="${esc(D.linkedin)}" target="_blank" rel="noopener" data-cta>${esc(U.cta)} <span class="arrow" aria-hidden="true">→</span></a>
+        <button type="button" class="btn btn-ghost" data-copy>${esc(U.copy)}</button>
+      </div>`;
+    out.dataset.summary = `${U.summaryHead}: ${pct}% (${verdict})\n`
+      + rows.map((r) => `- ${r.t}: ${U[r.fit]}. ${r.proof}`).join('\n') + `\n${D.url}`;
+    if (!tracked) { track('fit_used', {}); tracked = true; }
+  }
+
+  root.addEventListener('change', render);
+  root.addEventListener('click', async (e) => {
+    const el = (e.target as HTMLElement).closest('button, a') as HTMLElement | null;
+    if (!el) return;
+    if (el.hasAttribute('data-clear')) {
+      root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach((i) => (i.checked = false));
+      render();
+    } else if (el.hasAttribute('data-copy')) {
+      try {
+        await navigator.clipboard.writeText(out.dataset.summary || '');
+        const old = el.textContent;
+        el.textContent = U.copied;
+        setTimeout(() => (el.textContent = old), 1600);
+        track('fit_copy', {});
+      } catch {}
+    } else if (el.hasAttribute('data-cta')) track('fit_cta', {});
+  });
+  render();
+}

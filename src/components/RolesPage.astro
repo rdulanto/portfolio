@@ -3,9 +3,13 @@ import Base from '../layouts/Base.astro';
 import { BOOKING, SITE } from '../config';
 import { ui, type Lang } from '../i18n';
 import { roles, paths } from '../data/offer';
+import { recruiters } from '../data/recruiters';
+import '../styles/sim.css';
 const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
 const v = t.v2;
+const R = recruiters[lang];
+const fitData = { groups: R.fit.groups, ui: R.fit.ui, linkedin: SITE.linkedin, url: new URL(Astro.url.pathname, Astro.site).toString() };
 ---
 <Base lang={lang} title={`${v.rolesTitle} · Ricardo Dulanto`} description={v.rolesLead} altHref={lang === 'es' ? '/en/roles/' : '/roles/'} image="/img/ricardo-dulanto-roles.jpg">
   <header class="wrap page-head head-grid">
@@ -24,6 +28,12 @@ const v = t.v2;
     </picture>
   </header>
   <div class="wrap">
+    <section class="card-30" aria-labelledby="ficha">
+      <p class="eyebrow" id="ficha">{R.card.k}</p>
+      <dl>
+        {R.card.rows.map((r) => <div><dt class="mono">{r.k}</dt><dd>{r.v}</dd></div>)}
+      </dl>
+    </section>
     <dl class="proofs">
       {t.proofs.map((p) => <div><dt class="num hl">{p.k}</dt><dd>{p.t}</dd></div>)}
     </dl>
@@ -43,6 +53,68 @@ const v = t.v2;
       <p class="more"><a href={paths.projects(lang)}>{v.allProjects} →</a> · <a href={paths.about(lang)}>{t.nav.about} →</a></p>
     </div>
   </section>
+  <section id="competencias">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="eyebrow">{R.comp.k}</p><h2>{R.comp.t}</h2></div>
+        <p class="lead">{R.comp.lead}</p>
+      </header>
+      <div class="comp" role="table" aria-label={R.comp.t}>
+        <div class="comp-row comp-head" role="row">{R.comp.head.map((h) => <span class="mono" role="columnheader">{h}</span>)}</div>
+        {R.comp.rows.map((r) => (
+          <div class="comp-row" role="row">
+            <strong role="cell">{r.c}</strong>
+            <span role="cell">{r.e}</span>
+            <span role="cell">{r.l ? <a class="link" href={r.l.h}>{r.l.t} <span aria-hidden="true">→</span></a> : <span class="dash" aria-hidden="true">—</span>}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="encaje" class="alt">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="eyebrow">{R.fit.k}</p><h2>{R.fit.t}</h2></div>
+        <p class="lead">{R.fit.lead}</p>
+      </header>
+      <div class="fit" data-fit>
+        <script type="application/json" set:html={JSON.stringify(fitData)} />
+        <form class="fit-form">
+          {R.fit.groups.map((g) => (
+            <fieldset>
+              <legend class="mono">{g.k}</legend>
+              <div class="chips">
+                {g.items.map((it) => <label class="chip"><input type="checkbox" value={it.id} /><span>{it.t}</span></label>)}
+              </div>
+            </fieldset>
+          ))}
+          <button type="button" class="btn btn-ghost clear" data-clear>{R.fit.ui.clear}</button>
+        </form>
+        <div class="fit-result card" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="90-dias">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="eyebrow">{R.plan.k}</p><h2>{R.plan.t}</h2></div>
+        <p class="lead">{R.plan.lead}</p>
+      </header>
+      <ol class="plan">
+        {R.plan.phases.map((ph, i) => (
+          <li>
+            <p class="mono when"><span>{String(i + 1).padStart(2, '0')}</span> {ph.d}</p>
+            <h3>{ph.t}</h3>
+            <ul>{ph.items.map((x) => <li>{x}</li>)}</ul>
+            <p class="out"><span class="mono">{lang === 'es' ? 'Entregable' : 'Deliverable'}</span>{ph.out}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
   <section class="band">
     <div class="wrap">
       <h2>{v.rolesHow}</h2>
@@ -54,7 +126,65 @@ const v = t.v2;
     </div>
   </section>
 </Base>
+<script>
+  import { initFit } from '../scripts/simulator';
+  document.querySelectorAll<HTMLElement>('[data-fit]').forEach(initFit);
+</script>
 <style>
+  /* Ficha */
+  .card-30 { margin-top: 32px; padding: 28px 32px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+  .card-30 .eyebrow { margin-bottom: 16px; }
+  .card-30 dl { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 32px; }
+  .card-30 dt { margin-bottom: 4px; }
+  .card-30 dd { margin: 0; font-weight: 600; line-height: 1.4; }
+  /* Competencias */
+  .comp { border-top: 1px solid var(--ink); }
+  .comp-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.6fr) minmax(0, .9fr); gap: 8px 32px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: start; }
+  .comp-head { padding: 12px 0; }
+  .comp-row strong { font-weight: 600; }
+  .comp-row > span:nth-child(2) { color: var(--muted); }
+  .comp .link { display: inline-flex; align-items: center; min-height: 44px; padding: 0; }
+  .comp .dash { color: var(--line); }
+  /* Encaje */
+  .fit { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+  .fit-form fieldset { border: 0; margin: 0 0 24px; padding: 0; }
+  .fit-form legend { padding: 0; margin-bottom: 12px; color: var(--accent); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-size: .92rem; font-weight: 500; cursor: pointer; line-height: 1.3;
+    transition: background-color .15s ease, border-color .15s ease, transform .12s var(--ease-out); }
+  .chip input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .chip::before { content: ''; width: 14px; height: 14px; flex: none; border-radius: 4px; border: 1.5px solid var(--muted); transition: background-color .15s ease, border-color .15s ease; }
+  .chip:active { transform: scale(0.97); }
+  .chip:has(input:checked) { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .chip:has(input:checked)::before { background: var(--mark); border-color: var(--mark); }
+  .chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) { .chip:hover { border-color: var(--muted); } }
+  .fit-result { position: sticky; top: calc(var(--header) + 24px); padding: 28px; }
+  /* 90 días */
+  .plan { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; counter-reset: p; }
+  .plan > li { display: flex; flex-direction: column; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); border-top: 4px solid var(--mark); }
+  .plan .when { margin: 0 0 12px; color: var(--accent); }
+  .plan h3 { font-size: 1.2rem; margin: 0 0 12px; }
+  .plan ul { margin: 0 0 20px; padding-left: 18px; color: var(--muted); display: grid; gap: 8px; }
+  .plan .out { margin: auto 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-weight: 600; line-height: 1.4; }
+  .plan .out .mono { display: block; margin-bottom: 4px; font-weight: 500; }
+  @media (max-width: 960px) {
+    .card-30 dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .fit { grid-template-columns: 1fr; }
+    .fit-result { position: static; }
+    .plan { grid-template-columns: 1fr; }
+    .comp-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); }
+    .comp-row > :nth-child(3) { grid-column: 2; }
+  }
+  @media (max-width: 720px) {
+    .card-30 { padding: 20px; }
+    .card-30 dl { grid-template-columns: 1fr; gap: 14px; }
+    .comp-head { display: none; }
+    .comp-row { grid-template-columns: 1fr; }
+    .comp-row > :nth-child(3) { grid-column: 1; }
+    .comp-row > :nth-child(3):has(.dash) { display: none; }
+    .fit-result { padding: 20px; }
+  }
   .head-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: end; }
   .portrait img { width: 100%; max-width: 320px; margin-left: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
   .proofs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 32px 0; }
