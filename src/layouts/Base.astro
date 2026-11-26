@@ -8,11 +8,32 @@ import { SITE, BOOKING } from '../config';
 import { paths } from '../data/offer';
 import { notesIndex } from '../lib/notes';
 
-interface Props { lang: Lang; title?: string; description?: string; altHref?: string; image?: string }
-const { lang, title, description, altHref, image = '/img/ricardo-dulanto.jpg' } = Astro.props;
+// altHref: la misma página en el otro idioma; null si no existe (no se anuncia alternativa).
+// type/published: 'article' en artículos del blog. jsonld: datos estructurados extra de la página.
+interface Props { lang: Lang; title?: string; description?: string; altHref?: string | null; image?: string; type?: 'website' | 'article'; published?: Date; jsonld?: Record<string, unknown>[] }
+const { lang, title, description, altHref, image = '/img/ricardo-dulanto.jpg', type = 'website', published, jsonld = [] } = Astro.props;
 const t = ui[lang];
 const home = lang === 'es' ? '/' : '/en/';
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Google corta títulos de más de ~60 caracteres: en títulos largos se omite el sufijo con el nombre.
+const SUFFIX = ' · Ricardo Dulanto';
+const fullTitle = title ?? t.htmlTitle;
+const pageTitle = fullTitle.length > 60 && fullTitle.endsWith(SUFFIX) ? fullTitle.slice(0, -SUFFIX.length) : fullTitle;
+// Y corta descripciones de más de ~160: se recortan en un límite de palabra.
+const rawDesc = description ?? t.description;
+const pageDesc = rawDesc.length <= 160 ? rawDesc : `${rawDesc.slice(0, 157).replace(/[\s,.;:·–-]+\S*$/, '')}…`;
+const other = altHref === undefined ? (lang === 'es' ? '/en/' : '/') : altHref;
+const esHref = lang === 'es' ? Astro.url.pathname : other;
+const enHref = lang === 'en' ? Astro.url.pathname : other;
+const ogImage = new URL(image, Astro.site);
+const person = {
+  '@type': 'Person', '@id': `${Astro.site}#ricardo`, name: 'Ricardo Dulanto Ramírez', jobTitle: t.eyebrow, url: Astro.site?.toString(),
+  image: new URL('/img/ricardo-dulanto.jpg', Astro.site).toString(),
+  address: { '@type': 'PostalAddress', addressLocality: 'Lima', addressCountry: 'PE' },
+  sameAs: ['https://www.linkedin.com/in/rdulanto/', 'https://github.com/rdulanto'],
+  knowsAbout: ['Artificial Intelligence', 'Machine Learning', 'Data Governance', 'MLOps', 'Microsoft Azure', 'Generative AI'],
+};
+const graph = { '@context': 'https://schema.org', '@graph': [person, ...jsonld] };
 const links = [
   { href: paths.consulting(lang), label: t.nav.services },
   { href: paths.courses(lang), label: t.nav.courses },
@@ -28,15 +49,21 @@ const here = Astro.url.pathname;
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{title ?? t.htmlTitle}</title>
-  <meta name="description" content={description ?? t.description} />
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDesc} />
   <link rel="canonical" href={canonical} />
-  <link rel="alternate" hreflang="es" href={new URL(lang === 'es' ? Astro.url.pathname : (altHref ?? '/'), Astro.site)} />
-  <link rel="alternate" hreflang="en" href={new URL(lang === 'en' ? Astro.url.pathname : (altHref ?? '/en/'), Astro.site)} />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content={title ?? t.htmlTitle} />
-  <meta property="og:description" content={description ?? t.description} />
-  <meta property="og:image" content={new URL(image, Astro.site)} />
+  {esHref && <link rel="alternate" hreflang="es" href={new URL(esHref, Astro.site)} />}
+  {enHref && <link rel="alternate" hreflang="en" href={new URL(enHref, Astro.site)} />}
+  {esHref && enHref && <link rel="alternate" hreflang="x-default" href={new URL(esHref, Astro.site)} />}
+  <meta property="og:type" content={type} />
+  <meta property="og:site_name" content="Ricardo Dulanto" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:locale" content={lang === 'es' ? 'es_PE' : 'en_US'} />
+  {other && <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_PE'} />}
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDesc} />
+  <meta property="og:image" content={ogImage} />
+  {published && <meta property="article:published_time" content={published.toISOString()} />}
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#121316" media="(prefers-color-scheme: dark)" />
@@ -45,11 +72,7 @@ const here = Astro.url.pathname;
     // Aplica el tema elegido antes de pintar, para que no parpadee.
     try { const th = localStorage.getItem('theme'); if (th === 'light' || th === 'dark') document.documentElement.dataset.theme = th; } catch {}
   </script>
-  <script type="application/ld+json" set:html={JSON.stringify({
-    '@context': 'https://schema.org', '@type': 'Person', name: 'Ricardo Dulanto Ramírez',
-    jobTitle: t.eyebrow, url: Astro.site?.toString(), sameAs: ['https://www.linkedin.com/in/rdulanto/', 'https://github.com/rdulanto'],
-    knowsAbout: ['Artificial Intelligence', 'Machine Learning', 'Data Governance', 'MLOps', 'Microsoft Azure'],
-  })} />
+  <script type="application/ld+json" set:html={JSON.stringify(graph)} />
 </head>
 <body>
   <a class="skip" href="#main">{t.skip}</a>
