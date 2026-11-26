@@ -73,6 +73,13 @@ export const ui = {
     consent: { text: 'Uso Google Analytics para saber qué contenido es útil. ¿Aceptas cookies de analítica?', yes: 'Aceptar', no: 'Rechazar' },
     cats: { guia: 'Guía práctica', investigacion: 'Investigación' },
     v2: {
+      sims: {
+        k: 'Diagnóstico gratuito', t: 'Mide dónde estás antes de invertir', d: 'Dos simuladores interactivos que te dan un resultado al instante. No piden datos de contacto ni guardan tus respuestas.',
+        items: [
+          { id: 'sme', k: 'Pymes · 2 min', t: '¿Qué tan claro tienes tu negocio en números?', d: 'Para restaurantes, farmacias, hoteles y bodegas. Tu nivel y tus 3 oportunidades principales.', cta: 'Hacer el autodiagnóstico' },
+          { id: 'maturity', k: 'Empresas · 5 min', t: '¿Qué tan madura está tu empresa en datos e IA?', d: 'Seis dimensiones, un mapa de brechas y 3 prioridades para los próximos 90 días.', cta: 'Evaluar mi empresa' },
+        ],
+      },
       doors: [
         { k: 'Para empresas', t: 'Consultoría y cursos para llevar datos e IA a producción.', cta: 'Ver consultorías' },
         { k: 'Para reclutadores', t: 'Roles de liderazgo en Datos e IA que puedo asumir.', cta: 'Ver roles' },
@@ -194,6 +201,12 @@ export const ui = {
     consent: { text: 'I use Google Analytics to learn which content is useful. Accept analytics cookies?', yes: 'Accept', no: 'Decline' },
     cats: { guia: 'Practical guide', investigacion: 'Research' },
     v2: {
+      sims: {
+        k: 'Free assessment', t: 'Measure where you stand before you invest', d: 'An interactive self-assessment with an instant result. It asks for no contact details and does not store your answers.',
+        items: [
+          { id: 'maturity', k: 'Companies · 5 min', t: 'How mature is your company in data and AI?', d: 'Six dimensions, a gap map and 3 priorities for the next 90 days.', cta: 'Assess my company' },
+        ],
+      },
       doors: [
         { k: 'For companies', t: 'Consulting and courses to take data and AI to production.', cta: 'See consulting' },
         { k: 'For recruiters', t: 'Data & AI leadership roles I can take on.', cta: 'See roles' },

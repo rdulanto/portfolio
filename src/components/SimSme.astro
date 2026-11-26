@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/sim.css';
+import { BOOKING } from '../config';
+import { sme } from '../data/simulators';
+
+const ui = {
+  progress: 'Avance del diagnóstico',
+  rubroQ: '¿Qué tipo de negocio tienes?',
+  back: 'Atrás',
+  restart: 'Volver a empezar',
+  resultEyebrow: 'Tu resultado · {rubro}',
+  levelIs: 'Tu negocio está en el nivel',
+  ladder: 'Niveles de gestión con datos',
+  oppsTitle: 'Tus 3 oportunidades principales',
+  cajaHours: 'Unas {h} horas al mes menos cuadrando caja, con ventas y pagos sumados solos.',
+  cajaOk: 'Tu cuadre ya es rápido. El siguiente paso es que cuadre solo y te avise si algo no calza.',
+  disclaimer: 'Estimación referencial a partir de tus respuestas. El Diagnóstico Express la confirma con tus datos reales.',
+  svcTitle: 'Lo que te recomiendo',
+  cta: 'Agenda un café de 30 min',
+  share: 'Compartir resultado',
+  shareText: 'Hice el autodiagnóstico de mi {rubro} en ricardodulanto.com: nivel “{nivel}”. Mis oportunidades:',
+};
+const payload = { data: sme, ui, booking: BOOKING };
+const title = 'Autodiagnóstico para tu negocio · Ricardo Dulanto';
+const description = 'Responde 9 preguntas en 2 minutos y descubre cuánto puedes ganar ordenando tus números: restaurantes, farmacias, hoteles y bodegas de Lima.';
+---
+<Base lang="es" title={title} description={description} altHref="/en/assessment/">
+  <header class="wrap page-head">
+    <p class="eyebrow">Diagnóstico gratuito · 2 minutos</p>
+    <h1>¿Qué tan claro tienes tu negocio en números?</h1>
+    <p class="lead">Para restaurantes, farmacias, hoteles y bodegas. Responde 9 preguntas rápidas y mira tu nivel, tus 3 oportunidades principales y por dónde empezar.</p>
+    <ul class="facts mono"><li>9 preguntas</li><li>Sin registrarte</li><li>No guardamos tus respuestas</li></ul>
+  </header>
+  <div class="wrap sim-wrap">
+    <section class="sim" id="simulador" aria-label="Autodiagnóstico" data-sim="sme">
+      <script type="application/json" set:html={JSON.stringify(payload)} />
+      <div class="sim-stage" aria-live="polite"></div>
+      <noscript><p>Activa JavaScript para usar el autodiagnóstico, o <a href={BOOKING}>agenda una conversación</a>.</p></noscript>
+    </section>
+  </div>
+</Base>
+<script>
+  import { initSme } from '../scripts/simulator';
+  document.querySelectorAll<HTMLElement>('[data-sim="sme"]').forEach(initSme);
+</script>
+<style>
+  .facts { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .facts li::before { content: '✓ '; color: var(--accent); }
+  .page-head { border-bottom: 0; padding-bottom: 0; }
+</style>

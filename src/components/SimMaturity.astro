@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/sim.css';
+import { BOOKING } from '../config';
+import { type Lang } from '../i18n';
+import { maturity, simPaths } from '../data/simulators';
+import { services, paths } from '../data/offer';
+
+const { lang } = Astro.props as { lang: Lang };
+const es = lang === 'es';
+const slug = (id: string) => services[lang].find((s) => s.id === id)!.slug;
+const serviceHref = {
+  lead: paths.service(lang, slug('lead')), gov: paths.service(lang, slug('gov')), ml: paths.service(lang, slug('ml')),
+  genai: paths.service(lang, slug('genai')), courses: paths.courses(lang),
+};
+const ui = es ? {
+  progress: 'Avance de la evaluación', introTitle: '18 afirmaciones, 6 dimensiones, unos 5 minutos',
+  introLead: 'Califica qué tan cierta es cada afirmación hoy en tu empresa, de 1 (no existe) a 5 (se mide y se mejora). Responde por lo que pasa, no por lo que está planeado.',
+  start: 'Empezar evaluación', dimension: 'Dimensión', howTrue: '¿Qué tan cierto es hoy en tu empresa?',
+  back: 'Atrás', next: 'Siguiente', seeResult: 'Ver mi resultado', restart: 'Volver a empezar',
+  resultEyebrow: 'Tu resultado', levelIs: 'Madurez en datos e IA:', ladder: 'Niveles de madurez',
+  radarLabel: 'Gráfico de radar con el puntaje de cada dimensión', prioTitle: 'Tus 3 prioridades para los próximos 90 días',
+  disclaimer: 'Escala inspirada en modelos de madurez como DAMA-DMBOK y CMMI. Es una autoevaluación orientativa, no una certificación.',
+  svcTitle: 'Por dónde empezaría', svcLead: 'En 20 minutos revisamos tu resultado juntos y te digo qué haría primero en tu caso, sin compromiso.',
+  cta: 'Revisar mi resultado (20 min)', print: 'Guardar en PDF',
+} : {
+  progress: 'Assessment progress', introTitle: '18 statements, 6 dimensions, about 5 minutes',
+  introLead: 'Rate how true each statement is in your company today, from 1 (not in place) to 5 (measured and improved). Answer for what happens, not for what is planned.',
+  start: 'Start assessment', dimension: 'Dimension', howTrue: 'How true is this in your company today?',
+  back: 'Back', next: 'Next', seeResult: 'See my result', restart: 'Start over',
+  resultEyebrow: 'Your result', levelIs: 'Data and AI maturity:', ladder: 'Maturity levels',
+  radarLabel: 'Radar chart with the score of each dimension', prioTitle: 'Your 3 priorities for the next 90 days',
+  disclaimer: 'Scale inspired by maturity models such as DAMA-DMBOK and CMMI. It is an indicative self-assessment, not a certification.',
+  svcTitle: 'Where I would start', svcLead: 'In 20 minutes we review your result together and I tell you what I would do first in your case, no strings attached.',
+  cta: 'Review my result (20 min)', print: 'Save as PDF',
+};
+const payload = { data: maturity[lang], ui, booking: BOOKING, lang, serviceHref };
+const title = es ? 'Madurez en datos e IA: autoevaluación · Ricardo Dulanto' : 'Data and AI maturity self-assessment · Ricardo Dulanto';
+const description = es
+  ? 'Evalúa en 5 minutos la madurez de tu empresa en estrategia, gobierno de datos, plataforma, modelos, IA generativa y cultura, y recibe 3 prioridades a 90 días.'
+  : 'Assess in 5 minutes your company’s maturity in strategy, data governance, platform, models, generative AI and culture, and get 3 priorities for the next 90 days.';
+---
+<Base lang={lang} title={title} description={description} altHref={simPaths.maturity(es ? 'en' : 'es')}>
+  <header class="wrap page-head">
+    <p class="eyebrow">{es ? 'Autoevaluación gratuita · 5 minutos' : 'Free self-assessment · 5 minutes'}</p>
+    <h1>{es ? '¿Qué tan madura está tu empresa en datos e IA?' : 'How mature is your company in data and AI?'}</h1>
+    <p class="lead">{es
+      ? 'Para gerentes y líderes de datos, TI u operaciones. Obtén tu nivel en 6 dimensiones, un mapa de brechas y 3 prioridades concretas para los próximos 90 días.'
+      : 'For managers and leaders in data, IT or operations. Get your level across 6 dimensions, a gap map and 3 concrete priorities for the next 90 days.'}</p>
+    <ul class="facts mono">{(es ? ['18 afirmaciones', 'Sin registrarte', 'No guardamos tus respuestas'] : ['18 statements', 'No sign-up', 'Your answers are not stored']).map((f) => <li>{f}</li>)}</ul>
+  </header>
+  <div class="wrap sim-wrap">
+    <section class="sim" id="simulador" aria-label={es ? 'Autoevaluación de madurez' : 'Maturity self-assessment'} data-sim="maturity">
+      <script type="application/json" set:html={JSON.stringify(payload)} />
+      <div class="sim-stage" aria-live="polite"></div>
+      <noscript><p>{es ? 'Activa JavaScript para usar la autoevaluación.' : 'Enable JavaScript to use the self-assessment.'}</p></noscript>
+    </section>
+  </div>
+</Base>
+<script>
+  import { initMaturity } from '../scripts/simulator';
+  document.querySelectorAll<HTMLElement>('[data-sim="maturity"]').forEach(initMaturity);
+</script>
+<style>
+  .facts { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .facts li::before { content: '✓ '; color: var(--accent); }
+  .page-head { border-bottom: 0; padding-bottom: 0; }
+</style>

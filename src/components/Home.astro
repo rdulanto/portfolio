@@ -7,6 +7,7 @@ import { BOOKING, SITE } from '../config';
 import { ui, type Lang } from '../i18n';
 import { services, courses, paths } from '../data/offer';
 import { publishedNotes, notePath, notesIndex } from '../lib/notes';
+import { simPaths } from '../data/simulators';
 
 const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
@@ -15,6 +16,7 @@ const projects = (await getCollection('projects', (p) => p.data.lang === lang))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 const notes = (await publishedNotes(lang)).slice(0, 3);
 const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+const simHref = (id: string) => (id === 'sme' ? simPaths.sme : simPaths.maturity(lang));
 const doorHref = [paths.consulting(lang), paths.roles(lang), paths.projects(lang)];
 const order = ['services', 'projects', 'courses', ...(notes.length ? ['notes'] : [])];
 const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
@@ -55,6 +57,26 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
       {t.credLine.map((c) => <li class="mono">{c}</li>)}
     </ul>
   </div>
+
+  <section id="diagnostico" class="sims-sec">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><p class="eyebrow">{v.sims.k}</p><h2>{v.sims.t}</h2></div>
+        <p class="lead">{v.sims.d}</p>
+      </header>
+      <div class={`sims n${v.sims.items.length}`}>
+        {v.sims.items.map((s, i) => (
+          <a class="sim-card" href={simHref(s.id)}>
+            <span class="mono">{s.k}</span>
+            <strong>{s.t}</strong>
+            <span class="d">{s.d}</span>
+            <span class="meter" aria-hidden="true">{[0, 1, 2, 3, 4].map((k) => <i class={k <= (i === 0 ? 1 : 2) ? 'on' : ''} />)}</span>
+            <span class="btn btn-primary">{s.cta} <span class="arrow" aria-hidden="true">→</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <section id="servicios" class="band">
     <div class="wrap">
@@ -147,6 +169,29 @@ const idx = (k: string) => String(order.indexOf(k) + 1).padStart(2, '0');
 </Base>
 
 <style>
+
+  /* Simuladores */
+  .sims { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .sims.n1 { grid-template-columns: minmax(0, 1fr); }
+  .sim-card { display: flex; flex-direction: column; gap: 12px; padding: 32px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); color: var(--ink); text-decoration: none; transition: border-color .15s ease, box-shadow .2s var(--ease-out), transform .2s var(--ease-out); }
+  .sim-card .mono { color: var(--accent); }
+  .sim-card strong { font-size: clamp(1.25rem, 2.2vw, 1.5rem); font-weight: 650; letter-spacing: -0.02em; line-height: 1.2; max-width: 24ch; }
+  .sim-card .d { color: var(--muted); max-width: 52ch; }
+  .sim-card .meter { display: flex; gap: 6px; margin: 8px 0 12px; }
+  .sim-card .meter i { width: 36px; height: 6px; border-radius: 999px; background: var(--sand); border: 1px solid var(--line); transition: background-color .3s ease, border-color .3s ease; }
+  .sim-card .meter i.on { background: var(--mark); border-color: var(--mark); }
+  .sim-card .btn { align-self: flex-start; margin-top: auto; }
+  .sims.n1 .sim-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 48px; align-items: center; }
+  .sims.n1 .sim-card > :not(.btn) { grid-column: 1; }
+  .sims.n1 .sim-card .btn { grid-column: 2; grid-row: 1 / span 4; align-self: center; }
+  @media (hover: hover) and (pointer: fine) {
+    .sim-card:hover { border-color: var(--muted); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .sim-card:hover .meter i { background: var(--mark); border-color: var(--mark); }
+    .sim-card:hover .btn-primary { background: var(--mark-hover); border-color: var(--mark-hover); }
+    .sim-card:hover .arrow { transform: translateX(3px); }
+  }
+  @media (max-width: 900px) { .sims { grid-template-columns: 1fr; } .sims.n1 .sim-card { display: flex; } }
+  @media (max-width: 720px) { .sim-card { padding: 24px; } .sim-card .btn { width: 100%; } }
   .hero { padding-top: 104px; padding-bottom: 56px; }
   .hero { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 64px; align-items: center; }
   .hero-text > *, .hero-photo { animation: rise .6s var(--ease-out) both; }
