@@ -110,6 +110,24 @@
   .band-box { padding: 24px 20px; }
 }
 
+/* Encaje con la vacante (página Roles) */
+.fit-result .fit-empty { margin: 0; color: var(--muted); }
+.fit-result .fit-score .big { margin: 0 0 12px; }
+.fit-result .fit-score .meter { height: 8px; background: var(--sand); border-radius: 999px; overflow: hidden; }
+.fit-result .fit-score .meter span { display: block; height: 100%; background: var(--mark); transform-origin: left; transition: transform .35s var(--ease-out); }
+.fit-result .fit-score .verdict { font-weight: 600; margin: 16px 0 4px; }
+.fit-result .fit-score .mono { margin: 0; }
+.fit-result .fit-list { list-style: none; margin: 24px 0; padding: 0; display: grid; gap: 14px; max-height: 420px; overflow: auto; }
+.fit-result .fit-list li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: start; }
+.fit-result .fit-list strong { font-weight: 600; font-size: .95rem; }
+.fit-result .fit-list p { margin: 2px 0 0; color: var(--muted); font-size: .9rem; }
+.fit-result .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: .66rem; text-align: center; border: 1px solid var(--line); }
+.fit-result .full .badge { background: var(--mark); border-color: var(--mark); color: var(--on-mark); }
+.fit-result .partial .badge { background: var(--sand); color: var(--ink); }
+.fit-result .no .badge { color: var(--muted); }
+.fit-result .ctas .btn { flex: 1 1 auto; }
+@media (max-width: 720px) { .fit-result .fit-list { max-height: none; } .fit-result .ctas .btn { width: 100%; } }
+
 /* Guardar en PDF: solo el resultado */
 @media print {
   header.top, footer, .consent, .page-head .ctas, .sim-nav, .band-box .ctas, .skip { display: none !important; }
