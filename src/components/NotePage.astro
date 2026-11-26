@@ -10,7 +10,9 @@ const t = ui[lang];
 const { Content } = await render(entry);
 const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-PE' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
-<Base lang={lang} title={`${entry.data.title} · Ricardo Dulanto`} description={entry.data.summary} altHref={altHref}>
+<Base lang={lang} title={`${entry.data.title} · Ricardo Dulanto`} description={entry.data.summary} altHref={altHref} type="article" published={entry.data.date}
+  jsonld={[{ '@type': 'BlogPosting', headline: entry.data.title, description: entry.data.summary, datePublished: entry.data.date.toISOString(),
+    inLanguage: lang, url: new URL(Astro.url.pathname, Astro.site).toString(), author: { '@id': `${Astro.site}#ricardo` }, publisher: { '@id': `${Astro.site}#ricardo` } }]}>
   <article class="wrap article">
     <a href={notesIndex(lang)} class="back link">{t.backNotes}</a>
     <p class="tags"><span class="cat">{t.cats[entry.data.category as 'guia' | 'investigacion']}</span> · {entry.data.tags.join(' · ')}</p>

@@ -13,7 +13,9 @@ const altHref = paths.service(lang === 'es' ? 'en' : 'es', other.slug);
 const related = s.related ? (await getCollection('projects', (p) => p.data.lang === lang && p.data.ref === s.related))[0] : undefined;
 const rest = services[lang].filter((x) => x.id !== s.id);
 ---
-<Base lang={lang} title={`${s.title} · Ricardo Dulanto`} description={s.purpose} altHref={altHref}>
+<Base lang={lang} title={`${s.title} · Ricardo Dulanto`} description={s.purpose} altHref={altHref}
+  jsonld={[{ '@type': 'Service', name: s.title, description: s.purpose, serviceType: s.cat, url: new URL(Astro.url.pathname, Astro.site).toString(),
+    provider: { '@id': `${Astro.site}#ricardo` }, areaServed: [{ '@type': 'Country', name: 'Peru' }, 'Latin America'] }]}>
   <header class="wrap page-head">
     <a class="link back" href={paths.consulting(lang)}>{v.backCons}</a>
     <p class="eyebrow">{s.n} · {s.cat}</p>
