@@ -8,3 +8,6 @@ dist/
 .qa/
 .qa-before/
 .claude/settings.local.json
+worker/kb.generated.json
+.wrangler/
+.dev.vars
