@@ -1,11 +1,13 @@
 // Worker del sitio: sirve los archivos estáticos (dist/) y, solo en /api/chat, el asistente.
-// La clave ANTHROPIC_API_KEY es un secreto de Cloudflare; nunca va en el repositorio.
+// Por defecto usa Workers AI (cuota gratuita diaria de Cloudflare, sin tarjeta).
+// Si algún día se define el secreto ANTHROPIC_API_KEY en Cloudflare, pasa a usar Claude; nunca va en el repositorio.
 // No se guarda ninguna conversación: cada petición trae su propio historial y se olvida al responder.
 import Anthropic from '@anthropic-ai/sdk';
 import kb from './kb.generated.json';
 
 interface Env {
   ASSETS: Fetcher;
+  AI?: Ai;
   ANTHROPIC_API_KEY?: string;
   CHAT_LIMIT?: RateLimit;
 }
@@ -14,6 +16,8 @@ type Lang = 'es' | 'en';
 type Turn = { role: 'user' | 'assistant'; content: string };
 
 const MODEL = 'claude-opus-5-5';
+// Modelo abierto multilingüe con buen costo en neuronas: ~150 neuronas por pregunta, unas 60 preguntas al día gratis.
+const FREE_MODEL = '@cf/google/gemma-4-26b-a4b-it';
 const MAX_TURNS = 12; // 6 preguntas con sus respuestas
 const MAX_CHARS = 600; // por mensaje del visitante
 const BOOKING = 'https://calendar.app.google/LpuvurdHaRBMeS2X9';
@@ -48,13 +52,13 @@ Rules:
 
 const FAIL: Record<Lang, Record<string, string>> = {
   es: {
-    busy: 'Hay muchas preguntas en este momento. Intenta de nuevo en un minuto.',
+    busy: 'El asistente llegó a su límite por ahora. Intenta más tarde o agenda una llamada de 20 minutos.',
     off: 'El asistente no está disponible ahora. Puedes agendar una llamada de 20 minutos.',
     bad: 'No pude leer tu mensaje. Intenta de nuevo con una pregunta más corta.',
     refusal: 'Esa pregunta no la puedo responder aquí. Si quieres, conversémoslo en una llamada.',
   },
   en: {
-    busy: 'Lots of questions right now. Please try again in a minute.',
+    busy: 'The assistant has reached its limit for now. Try again later or book a 20-minute call.',
     off: 'The assistant is not available right now. You can book a 20-minute call.',
     bad: "I couldn't read your message. Please try a shorter question.",
     refusal: "I can't answer that here. Happy to talk it through on a call.",
@@ -120,7 +124,7 @@ async function chat(req: Request, env: Env): Promise<Response> {
     const { success } = await env.CHAT_LIMIT.limit({ key: ip });
     if (!success) return json({ error: t.busy }, 429);
   }
-  if (!env.ANTHROPIC_API_KEY) return json({ error: t.off }, 503);
+  if (!env.ANTHROPIC_API_KEY) return free(env, lang, turns, t);
 
   const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY, maxRetries: 1, timeout: 45_000 });
   try {
@@ -156,6 +160,28 @@ async function chat(req: Request, env: Env): Promise<Response> {
     }
     console.error('chat', err);
     return json({ error: t.off }, 502);
+  }
+}
+
+// Workers AI: solo se envían las páginas del idioma del visitante para gastar menos cuota.
+async function free(env: Env, lang: Lang, turns: Turn[], t: Record<string, string>): Promise<Response> {
+  if (!env.AI) return json({ error: t.off }, 503);
+  try {
+    const out = (await env.AI.run(FREE_MODEL, {
+      messages: [
+        { role: 'system', content: `${RULES[lang]}\n\nPáginas del sitio / Site pages:\n\n${kb[lang]}` },
+        ...turns,
+      ],
+      max_tokens: 600,
+      temperature: 0.2,
+      chat_template_kwargs: { enable_thinking: false },
+    })) as { choices?: { message?: { content?: string | null } }[]; response?: string };
+    const reply = (out.choices?.[0]?.message?.content ?? out.response ?? '').trim();
+    return json({ reply: reply || t.refusal });
+  } catch (err) {
+    // Al agotarse la cuota gratuita del día, Workers AI responde con error hasta las 00:00 UTC.
+    console.error('workers-ai', err);
+    return json({ error: t.busy }, 503);
   }
 }
 
