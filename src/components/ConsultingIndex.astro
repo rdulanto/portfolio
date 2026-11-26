@@ -4,6 +4,7 @@ import ServiceCard from './ServiceCard.astro';
 import { BOOKING } from '../config';
 import { ui, type Lang } from '../i18n';
 import { services } from '../data/offer';
+import { simPaths } from '../data/simulators';
 const { lang } = Astro.props as { lang: Lang };
 const t = ui[lang];
 const v = t.v2;
@@ -13,7 +14,7 @@ const v = t.v2;
     <p class="eyebrow">{t.nav.services}</p>
     <h1>{v.consTitle}</h1>
     <p class="lead">{v.consLead}</p>
-    <div class="ctas"><a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span aria-hidden="true">→</span></a></div>
+    <div class="ctas"><a class="btn btn-primary" href={BOOKING} rel="noopener" target="_blank">{t.ctaPrimary} <span aria-hidden="true">→</span></a><a class="btn btn-ghost" href={simPaths.maturity(lang)}>{lang === 'es' ? 'Evalúa tu madurez en datos e IA' : 'Assess your data and AI maturity'}</a></div>
   </header>
   <div class="wrap body">
     <div class="grid svc-grid">
